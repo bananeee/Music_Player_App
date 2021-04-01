@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/pink_medium</item>
+        <item name="colorPrimaryDark">@color/pink_medium</item>
+        <item name="colorAccent">@color/blue_dark</item>
+        <item name="android:windowBackground">@color/pink_light</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="songName">
+        <item name="android:textColor">@color/blue_dark</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="singerText">
+        <item name="android:textColor">@color/blue_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="time">
+        <item name="android:textColor">@color/blue_dark</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">8sp</item>
+    </style>
+</resources>
