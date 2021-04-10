@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.musicplayerapp.Fragment.FavoriteListFragment
-import com.example.musicplayerapp.Fragment.MainFragment
+import com.example.musicplayerapp.Fragment.HomeFragment
 import com.example.musicplayerapp.Fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val mainFragment = MainFragment()
+        val mainFragment = HomeFragment()
         val profileFragment =
             ProfileFragment()
         val favoriteListFragment =

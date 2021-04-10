@@ -11,7 +11,7 @@ import com.example.musicplayerapp.Adapter.ListAlbumAdapter
 import com.example.musicplayerapp.Entity.Album
 import com.example.musicplayerapp.R
 
-class MainFragment : Fragment() {
+class HomeFragment : Fragment() {
     private lateinit var albumRecyclerView: RecyclerView
     private lateinit var listAlbumAdapter: ListAlbumAdapter
     private var listAlbum: ArrayList<Album> = ArrayList()
@@ -22,7 +22,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_main, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_home, container, false)
 
         listAlbumAdapter =
             ListAlbumAdapter(listAlbum)
