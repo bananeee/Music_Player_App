@@ -3,7 +3,9 @@ package com.example.musicplayerapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.example.musicplayerapp.Fragment.FavoriteListFragment
+import com.example.musicplayerapp.Fragment.MainFragment
+import com.example.musicplayerapp.Fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,8 +16,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val mainFragment = MainFragment()
-        val profileFragment = ProfileFragment()
-        val favoriteListFragment = FavoriteListFragment()
+        val profileFragment =
+            ProfileFragment()
+        val favoriteListFragment =
+            FavoriteListFragment()
 
         loadFragment(mainFragment)
 

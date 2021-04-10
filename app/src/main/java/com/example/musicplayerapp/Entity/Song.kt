@@ -1,4 +1,4 @@
-package com.example.musicplayerapp
+package com.example.musicplayerapp.Entity
 
 data class Song (
     var imgId: Int,

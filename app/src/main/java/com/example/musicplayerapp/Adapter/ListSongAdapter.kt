@@ -1,4 +1,4 @@
-package com.example.musicplayerapp
+package com.example.musicplayerapp.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musicplayerapp.Entity.Song
+import com.example.musicplayerapp.R
 
 class ListSongAdapter(private val listSong: ArrayList<Song>):  RecyclerView.Adapter<ListSongAdapter.ListSongViewHolder>(){
     class ListSongViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -16,9 +18,11 @@ class ListSongAdapter(private val listSong: ArrayList<Song>):  RecyclerView.Adap
         val favorite: ImageView = view.findViewById(R.id.isFavorite)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSongAdapter.ListSongViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSongViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.song_item, parent, false)
-        return ListSongViewHolder(view)
+        return ListSongViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int {

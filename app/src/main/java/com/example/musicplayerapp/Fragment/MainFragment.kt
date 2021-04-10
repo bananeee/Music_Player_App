@@ -1,4 +1,4 @@
-package com.example.musicplayerapp
+package com.example.musicplayerapp.Fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_main.*
+import com.example.musicplayerapp.Adapter.ListAlbumAdapter
+import com.example.musicplayerapp.Entity.Album
+import com.example.musicplayerapp.R
 
 class MainFragment : Fragment() {
     private lateinit var albumRecyclerView: RecyclerView
@@ -22,7 +24,8 @@ class MainFragment : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_main, container, false)
 
-        listAlbumAdapter = ListAlbumAdapter(listAlbum)
+        listAlbumAdapter =
+            ListAlbumAdapter(listAlbum)
         albumRecyclerView = view.findViewById(R.id.listAlbum)
         albumRecyclerView.apply {
             setHasFixedSize(true)
@@ -30,7 +33,9 @@ class MainFragment : Fragment() {
             adapter = listAlbumAdapter
         }
 
-        addChildFragment(childFragment, R.id.listSongFragment)
+        addChildFragment(childFragment,
+            R.id.listSongFragment
+        )
 
         return view
     }
@@ -38,7 +43,13 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         for (j: Int in 1..10){
-            listAlbum.add(Album(R.drawable.blue_neighbourhood, "Wind", "Troye Sivan"))
+            listAlbum.add(
+                Album(
+                    R.drawable.blue_neighbourhood,
+                    "Wind",
+                    "Troye Sivan"
+                )
+            )
         }
     }
 

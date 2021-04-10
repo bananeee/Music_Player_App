@@ -1,4 +1,4 @@
-package com.example.musicplayerapp
+package com.example.musicplayerapp.Fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musicplayerapp.Adapter.ListSongAdapter
+import com.example.musicplayerapp.Entity.Song
+import com.example.musicplayerapp.R
 
 class ListFragment : Fragment() {
     private lateinit var songRecyclerView: RecyclerView
@@ -17,7 +20,8 @@ class ListFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view : View = inflater.inflate(R.layout.fragment_list, container, false)
 
-        listSongAdapter = ListSongAdapter(listSong)
+        listSongAdapter =
+            ListSongAdapter(listSong)
         songRecyclerView = view.findViewById(R.id.listSong)
         songRecyclerView.apply {
             setHasFixedSize(true)
@@ -31,7 +35,15 @@ class ListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         for (i: Int in 1..10){
-            listSong.add(Song(R.drawable.unnamed, "Wind", "Troye Sivan", false, false))
+            listSong.add(
+                Song(
+                    R.drawable.unnamed,
+                    "Wind",
+                    "Troye Sivan",
+                    false,
+                    false
+                )
+            )
         }
     }
 
