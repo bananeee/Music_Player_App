@@ -75,7 +75,7 @@
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginTop="8dp"
         android:layout_marginRight="@dimen/app_margin"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintBottom_toTopOf="@+id/playing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,25 +107,25 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:src="@drawable/ic_home" />
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_queue_music" />
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:src="@drawable/ic_perm_identity" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/playing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/song_playing_bottom"
@@ -200,11 +200,9 @@
                 tools:layout_editor_absoluteX="168dp"
                 tools:layout_editor_absoluteY="9dp" />
 
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
-    
 </androidx.constraintlayout.widget.ConstraintLayout>

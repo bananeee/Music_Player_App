@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/navigation_home"
+    android:title="Home"
+    android:icon="@drawable/ic_home"/>
 
+    <item
+        android:id="@+id/navigation_favoriteList"
+        android:title="Favorite"
+        android:icon="@drawable/ic_queue_music"/>
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_perm_identity"/>
 </menu>
