@@ -1,4 +1,4 @@
-package com.example.musicplayerapp.Adapter
+package com.example.musicplayerapp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayerapp.Entity.Song
+import com.example.musicplayerapp.model.Song
 import com.example.musicplayerapp.R
 
 class ListSongAdapter(private val listSong: ArrayList<Song>):  RecyclerView.Adapter<ListSongAdapter.ListSongViewHolder>(){

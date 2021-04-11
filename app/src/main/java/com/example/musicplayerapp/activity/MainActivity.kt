@@ -1,11 +1,12 @@
-package com.example.musicplayerapp
+package com.example.musicplayerapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.musicplayerapp.Fragment.FavoriteListFragment
-import com.example.musicplayerapp.Fragment.HomeFragment
-import com.example.musicplayerapp.Fragment.ProfileFragment
+import com.example.musicplayerapp.R
+import com.example.musicplayerapp.fragment.FavoriteListFragment
+import com.example.musicplayerapp.fragment.HomeFragment
+import com.example.musicplayerapp.fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

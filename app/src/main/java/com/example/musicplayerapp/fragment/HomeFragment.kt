@@ -1,4 +1,4 @@
-package com.example.musicplayerapp.Fragment
+package com.example.musicplayerapp.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayerapp.Adapter.ListAlbumAdapter
-import com.example.musicplayerapp.Entity.Album
+import com.example.musicplayerapp.adapter.ListAlbumAdapter
+import com.example.musicplayerapp.model.Album
 import com.example.musicplayerapp.R
 
 class HomeFragment : Fragment() {

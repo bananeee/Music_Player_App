@@ -1,4 +1,4 @@
-package com.example.musicplayerapp.Fragment
+package com.example.musicplayerapp.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
