@@ -82,12 +82,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/listAlbum" />
 
-            <FrameLayout
-                android:id="@+id/listSongFragment"
-                android:name="com.example.musicplayerapp.ListFragment"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listSong"
                 android:layout_width="0dp"
-                android:layout_height="700dp"
+                android:layout_height="500dp"
+                android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/app_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

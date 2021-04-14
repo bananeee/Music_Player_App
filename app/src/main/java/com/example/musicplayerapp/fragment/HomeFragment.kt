@@ -10,13 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.adapter.ListAlbumAdapter
 import com.example.musicplayerapp.model.Album
 import com.example.musicplayerapp.R
+import com.example.musicplayerapp.adapter.ListSongAdapter
+import com.example.musicplayerapp.model.Song
 
 class HomeFragment : Fragment() {
     private lateinit var albumRecyclerView: RecyclerView
     private lateinit var listAlbumAdapter: ListAlbumAdapter
     private var listAlbum: ArrayList<Album> = ArrayList()
 
-    val childFragment = ListFragment()
+    private lateinit var songRecyclerView: RecyclerView
+    private lateinit var listSongAdapter: ListSongAdapter
+    private var listSong: ArrayList<Song> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,9 +37,14 @@ class HomeFragment : Fragment() {
             adapter = listAlbumAdapter
         }
 
-        addChildFragment(childFragment,
-            R.id.listSongFragment
-        )
+        listSongAdapter =
+                ListSongAdapter(listSong)
+        songRecyclerView = view.findViewById(R.id.listSong)
+        songRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
+            adapter = listSongAdapter
+        }
 
         return view
     }
@@ -49,6 +58,17 @@ class HomeFragment : Fragment() {
                     "Wind",
                     "Troye Sivan"
                 )
+            )
+        }
+        for (i: Int in 1..10){
+            listSong.add(
+                    Song(
+                            R.drawable.unnamed,
+                            "Wind",
+                            "Troye Sivan",
+                            false,
+                            false
+                    )
             )
         }
     }
