@@ -29,7 +29,8 @@ class HomeFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
 
         listAlbumAdapter =
-            ListAlbumAdapter(listAlbum)
+            ListAlbumAdapter()
+        listAlbumAdapter.submitList(listAlbum)
         albumRecyclerView = view.findViewById(R.id.listAlbum)
         albumRecyclerView.apply {
             setHasFixedSize(true)
@@ -38,7 +39,8 @@ class HomeFragment : Fragment() {
         }
 
         listSongAdapter =
-                ListSongAdapter(listSong)
+                ListSongAdapter()
+        listSongAdapter.submitList(listSong)
         songRecyclerView = view.findViewById(R.id.listSong)
         songRecyclerView.apply {
             setHasFixedSize(true)

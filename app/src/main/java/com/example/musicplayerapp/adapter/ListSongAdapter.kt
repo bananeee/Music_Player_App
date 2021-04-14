@@ -5,12 +5,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.model.Song
 import com.example.musicplayerapp.R
 
-class ListSongAdapter(private val listSong: ArrayList<Song>):  RecyclerView.Adapter<ListSongAdapter.ListSongViewHolder>(){
-    class ListSongViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class ListSongAdapter: ListAdapter<Song, ListSongAdapter.SongViewHolder>(DiffCallback){
+    companion object DiffCallback : DiffUtil.ItemCallback<Song>() {
+        override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Song, newItem: Song): Boolean {
+            return oldItem.equals(newItem)
+        }
+    }
+
+    class SongViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgId: ImageView = view.findViewById(R.id.image)
         val songName: TextView = view.findViewById(R.id.songName)
         val singer: TextView = view.findViewById(R.id.singer)
@@ -18,19 +30,15 @@ class ListSongAdapter(private val listSong: ArrayList<Song>):  RecyclerView.Adap
         val favorite: ImageView = view.findViewById(R.id.isFavorite)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSongViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.song_item, parent, false)
-        return ListSongViewHolder(
+        return SongViewHolder(
             view
         )
     }
 
-    override fun getItemCount(): Int {
-        return listSong.size
-    }
-
-    override fun onBindViewHolder(viewHolder: ListSongViewHolder, position: Int) {
-        val currentItem = listSong[position]
+    override fun onBindViewHolder(viewHolder: SongViewHolder, position: Int) {
+        val currentItem = getItem(position)
 
         viewHolder.imgId.setImageResource(currentItem.imgId)
         viewHolder.songName.text = currentItem.songName

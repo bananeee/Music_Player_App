@@ -24,7 +24,8 @@ class FavoriteListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorite_list, container, false)
 
         favoriteSongRecyclerView = view.findViewById(R.id.favoriteSong)
-        favoriteSongAdapter = ListSongAdapter(favoriteSong)
+        favoriteSongAdapter = ListSongAdapter()
+        favoriteSongAdapter.submitList(favoriteSong)
         favoriteSongRecyclerView.apply {
             setHasFixedSize(true)
             adapter = favoriteSongAdapter
