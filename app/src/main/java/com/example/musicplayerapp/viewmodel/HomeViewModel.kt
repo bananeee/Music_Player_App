@@ -53,7 +53,4 @@ class HomeViewModel() : ViewModel() {
             )
         }
     }
-    fun <T> MutableLiveData<T>.notifyObserver() {
-        this.value = this.value
-    }
 }

@@ -11,6 +11,7 @@ import com.example.musicplayerapp.R
 import com.example.musicplayerapp.databinding.ActivityMainBinding
 import com.example.musicplayerapp.fragment.FavoriteListFragment
 import com.example.musicplayerapp.fragment.HomeFragment
+import com.example.musicplayerapp.fragment.PlayingFragment
 import com.example.musicplayerapp.fragment.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
@@ -46,19 +47,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        binding.playing.setOnClickListener {
-//            val currentFragment: Fragment = getCurrentFragment(this)
-//            var fragmentManager: FragmentManager = this.getSupportFragmentManager()
-//            when(it.fragment){
-//                fragmentManager.findFragmentById(R.id.homeFragment) ->
-//            }
-//
-//        }
-//        Log.i("MainActivity", "current fragment" + getCurrentFragment(this).toString())
+        val playingFragment = PlayingFragment()
+        binding.playing.setOnClickListener {
+            loadFragment(playingFragment)
+        }
 
     }
 
-    private fun loadFragment(fragment: Fragment){
+    public fun loadFragment(fragment: Fragment){
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment, fragment)
@@ -67,16 +63,17 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-//    private fun getCurrentFragment(activity: MainActivity): Fragment {
-//        var fragmentManager: FragmentManager = activity.getSupportFragmentManager()
-//        val fragmentList: List<Fragment> = fragmentManager.getFragments()
-//        if (fragmentList != null) {
-//            for (i: Int in 0..fragmentList.size) {
-//                val currentFragment : Fragment = fragmentList.get(i)
-//                if (currentFragment != null && currentFragment.isVisible)
-//                return currentFragment
-//            }
-//        }
-//        return Fragment()
-//    }
+    public fun hideBottomNavigationAndPlaying(){
+        binding.bottomNavigation.visibility = View.GONE
+        binding.playing.visibility = View.GONE
+    }
+
+    public fun displayBottomNavigationAndPlaying(){
+        binding.bottomNavigation.visibility = View.VISIBLE
+        binding.playing.visibility = View.VISIBLE
+    }
+
+    public fun highlightHomeIcon(){
+        binding.bottomNavigation.selectedItemId = R.id.navigation_home
+    }
 }

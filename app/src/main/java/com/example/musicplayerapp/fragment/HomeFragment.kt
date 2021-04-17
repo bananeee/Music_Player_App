@@ -8,29 +8,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.adapter.ListAlbumAdapter
 import com.example.musicplayerapp.model.Album
 import com.example.musicplayerapp.R
+import com.example.musicplayerapp.activity.MainActivity
 import com.example.musicplayerapp.adapter.ListSongAdapter
+import com.example.musicplayerapp.databinding.FragmentHomeBinding
 import com.example.musicplayerapp.model.Song
 import com.example.musicplayerapp.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
+    private lateinit var binding: FragmentHomeBinding
+
     private lateinit var albumRecyclerView: RecyclerView
     private lateinit var listAlbumAdapter: ListAlbumAdapter
-//    private var listAlbum: ArrayList<Album> = ArrayList()
 
     private lateinit var songRecyclerView: RecyclerView
     private lateinit var listSongAdapter: ListSongAdapter
-//    private var listSong: ArrayList<Song> = ArrayList()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        //Display bottom navigation and playing container
+        (activity as MainActivity?)!!.displayBottomNavigationAndPlaying()
 
         val viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
@@ -41,7 +47,7 @@ class HomeFragment : Fragment() {
                 listAlbumAdapter.submitList(viewModel.listAlbum.value)
             }
         })
-        albumRecyclerView = view.findViewById(R.id.listAlbum)
+        albumRecyclerView = binding.listAlbum
         albumRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -54,38 +60,14 @@ class HomeFragment : Fragment() {
                 listSongAdapter.submitList(songs)
             }
         })
-        songRecyclerView = view.findViewById(R.id.listSong)
+        songRecyclerView = binding.listSong
         songRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = listSongAdapter
         }
 
-        return view
+        return binding.root
     }
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        for (j: Int in 1..10){
-//            listAlbum.add(
-//                Album(
-//                    R.drawable.blue_neighbourhood,
-//                    "Wind",
-//                    "Troye Sivan"
-//                )
-//            )
-//        }
-//        for (i: Int in 1..10){
-//            listSong.add(
-//                    Song(
-//                            R.drawable.unnamed,
-//                            "Wind",
-//                            "Troye Sivan",
-//                            false,
-//                            false
-//                    )
-//            )
-//        }
-//    }
 
 }

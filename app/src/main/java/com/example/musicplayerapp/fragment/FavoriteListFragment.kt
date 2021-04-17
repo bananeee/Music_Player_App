@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.R
+import com.example.musicplayerapp.activity.MainActivity
 import com.example.musicplayerapp.adapter.ListSongAdapter
+import com.example.musicplayerapp.databinding.FragmentFavoriteListBinding
 import com.example.musicplayerapp.model.Album
 import com.example.musicplayerapp.model.Song
 
 class FavoriteListFragment : Fragment() {
+    private lateinit var binding: FragmentFavoriteListBinding
+
     private lateinit var favoriteSongRecyclerView: RecyclerView
     private lateinit var favoriteSongAdapter: ListSongAdapter
     private var favoriteSong: ArrayList<Song> = ArrayList()
@@ -21,9 +25,12 @@ class FavoriteListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_favorite_list, container, false)
+        binding = FragmentFavoriteListBinding.inflate(layoutInflater)
 
-        favoriteSongRecyclerView = view.findViewById(R.id.favoriteSong)
+        //Display bottom navigation and playing container
+        (activity as MainActivity?)!!.displayBottomNavigationAndPlaying()
+
+        favoriteSongRecyclerView = binding.favoriteSong
         favoriteSongAdapter = ListSongAdapter()
         favoriteSongAdapter.submitList(favoriteSong)
         favoriteSongRecyclerView.apply {
@@ -32,8 +39,7 @@ class FavoriteListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
         }
 
-        // Inflate the layout for this fragment
-        return view
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

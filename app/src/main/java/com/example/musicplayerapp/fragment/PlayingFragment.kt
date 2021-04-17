@@ -6,13 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.musicplayerapp.R
+import com.example.musicplayerapp.activity.MainActivity
+import com.example.musicplayerapp.databinding.FragmentPlayingBinding
 
 class PlayingFragment : Fragment() {
+    private lateinit var binding : FragmentPlayingBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_playing, container, false)
+        binding = FragmentPlayingBinding.inflate(layoutInflater)
+
+        //Hide bottom navigation and playing container
+        (activity as MainActivity?)!!.hideBottomNavigationAndPlaying()
+
+        val homeFragment = HomeFragment()
+        binding.back.setOnClickListener {
+            (activity as MainActivity?)!!.loadFragment(homeFragment)
+            (activity as MainActivity?)!!.highlightHomeIcon()
+        }
+
+        return binding.root
     }
 
 }
