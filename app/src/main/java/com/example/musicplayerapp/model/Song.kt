@@ -6,5 +6,4 @@ data class Song (
     var singer: String,
     var isPlaying: Boolean,
     var isFavorite: Boolean
-){
-}
+)

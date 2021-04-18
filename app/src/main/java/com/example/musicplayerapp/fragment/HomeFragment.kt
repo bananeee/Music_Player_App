@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -16,6 +17,7 @@ import com.example.musicplayerapp.model.Album
 import com.example.musicplayerapp.R
 import com.example.musicplayerapp.activity.MainActivity
 import com.example.musicplayerapp.adapter.ListSongAdapter
+import com.example.musicplayerapp.adapter.SongClickListener
 import com.example.musicplayerapp.databinding.FragmentHomeBinding
 import com.example.musicplayerapp.model.Song
 import com.example.musicplayerapp.viewmodel.HomeViewModel
@@ -28,6 +30,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var songRecyclerView: RecyclerView
     private lateinit var listSongAdapter: ListSongAdapter
+    private lateinit var songClickListener: SongClickListener
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +57,12 @@ class HomeFragment : Fragment() {
             adapter = listAlbumAdapter
         }
 
-        listSongAdapter = ListSongAdapter()
+        songClickListener = SongClickListener {
+//            Toast.makeText(activity, "this is item has image id: " + it.toString(), Toast.LENGTH_LONG).show()
+            val playingFragment = PlayingFragment()
+            (activity as MainActivity?)!!.loadFragment(playingFragment)
+        }
+        listSongAdapter = ListSongAdapter(songClickListener)
         viewModel.listSong.observe(viewLifecycleOwner, Observer { songs ->
             songs?.let {
                 listSongAdapter.submitList(songs)

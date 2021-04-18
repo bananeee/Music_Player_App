@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.model.Song
 import com.example.musicplayerapp.R
 
-class ListSongAdapter: ListAdapter<Song, ListSongAdapter.SongViewHolder>(DiffCallback){
+class ListSongAdapter(val songClickListener: SongClickListener) :
+    ListAdapter<Song, ListSongAdapter.SongViewHolder>(DiffCallback) {
     companion object DiffCallback : DiffUtil.ItemCallback<Song>() {
         override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
             return oldItem == newItem
@@ -32,29 +33,31 @@ class ListSongAdapter: ListAdapter<Song, ListSongAdapter.SongViewHolder>(DiffCal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.song_item, parent, false)
-        return SongViewHolder(
-            view
-        )
+        return SongViewHolder(view)
     }
 
     override fun onBindViewHolder(viewHolder: SongViewHolder, position: Int) {
         val currentItem = getItem(position)
 
+        viewHolder.itemView.setOnClickListener{songClickListener.onClick(currentItem)}
+
         viewHolder.imgId.setImageResource(currentItem.imgId)
         viewHolder.songName.text = currentItem.songName
         viewHolder.singer.text = currentItem.singer
-        if (currentItem.isPlaying){
+        if (currentItem.isPlaying) {
             viewHolder.playing.setImageResource(R.drawable.ic_pause)
-        }
-        else{
+        } else {
             viewHolder.playing.setImageResource(R.drawable.ic_play_arrow)
         }
 
-        if (currentItem.isFavorite){
+        if (currentItem.isFavorite) {
             viewHolder.favorite.setImageResource(R.drawable.ic_favorite)
-        }else{
+        } else {
             viewHolder.favorite.setImageResource(R.drawable.ic_favorite_border)
         }
     }
+}
 
+class SongClickListener(val clickListener: (songId: Int) -> Unit) {
+    fun onClick(song: Song) = clickListener(song.imgId)
 }

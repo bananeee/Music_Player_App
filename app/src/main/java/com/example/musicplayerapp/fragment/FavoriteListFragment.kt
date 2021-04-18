@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.R
 import com.example.musicplayerapp.activity.MainActivity
 import com.example.musicplayerapp.adapter.ListSongAdapter
+import com.example.musicplayerapp.adapter.SongClickListener
 import com.example.musicplayerapp.databinding.FragmentFavoriteListBinding
 import com.example.musicplayerapp.model.Album
 import com.example.musicplayerapp.model.Song
@@ -19,6 +20,8 @@ class FavoriteListFragment : Fragment() {
 
     private lateinit var favoriteSongRecyclerView: RecyclerView
     private lateinit var favoriteSongAdapter: ListSongAdapter
+    private lateinit var songClickListener: SongClickListener
+
     private var favoriteSong: ArrayList<Song> = ArrayList()
 
     override fun onCreateView(
@@ -31,7 +34,11 @@ class FavoriteListFragment : Fragment() {
         (activity as MainActivity?)!!.displayBottomNavigationAndPlaying()
 
         favoriteSongRecyclerView = binding.favoriteSong
-        favoriteSongAdapter = ListSongAdapter()
+        songClickListener = SongClickListener {
+            val playingFragment = PlayingFragment()
+            (activity as MainActivity?)!!.loadFragment(playingFragment)
+        }
+        favoriteSongAdapter = ListSongAdapter(songClickListener)
         favoriteSongAdapter.submitList(favoriteSong)
         favoriteSongRecyclerView.apply {
             setHasFixedSize(true)
