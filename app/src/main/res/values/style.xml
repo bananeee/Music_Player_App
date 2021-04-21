@@ -24,7 +24,6 @@
     <style name="time">
         <item name="android:textColor">@color/blue_dark</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">8sp</item>
     </style>
 </resources>

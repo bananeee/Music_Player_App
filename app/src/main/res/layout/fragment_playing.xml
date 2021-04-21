@@ -45,33 +45,34 @@
         style="@style/songName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Now Playing"
-        android:textSize="25sp"
+        android:textColor="@color/blue_dark"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/back" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_img_playing"
-        android:scaleType="center"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/original"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.35" />
+        app:layout_constraintVertical_bias="0.364" />
 
     <ImageView
         android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/ic_play_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/playNext"
-        app:layout_constraintStart_toEndOf="@+id/repeat"
+        app:layout_constraintStart_toEndOf="@+id/playPrevious"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
     <ImageView
@@ -80,10 +81,10 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_skip_previous"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/repeat"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        app:layout_constraintEnd_toStartOf="@+id/play"
+        app:layout_constraintStart_toEndOf="@+id/repeat"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.508" />
 
     <ImageView
         android:id="@+id/volumn"
@@ -101,8 +102,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_repeat"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/play"
-        app:layout_constraintStart_toEndOf="@+id/playPrevious"
+        app:layout_constraintEnd_toStartOf="@+id/playPrevious"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
     <ImageView
@@ -122,7 +123,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="Wind"
-        android:textSize="30sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -138,7 +139,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
         android:text="Troye Sivan"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -146,8 +147,8 @@
 
     <ImageView
         android:id="@+id/favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_favorite"
         app:layout_constraintBottom_toBottomOf="@+id/singer"
@@ -179,6 +180,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="1:36"
+        android:textColor="@color/blue_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
@@ -189,6 +191,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:text="3:42"
+        android:textColor="@color/blue_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
