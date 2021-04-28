@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.adapter.ListAlbumAdapter
@@ -38,9 +39,6 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        //Display bottom navigation and playing container
-        (activity as MainActivity?)!!.displayBottomNavigationAndPlaying()
-
         val viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         listAlbumAdapter = ListAlbumAdapter()
@@ -58,9 +56,8 @@ class HomeFragment : Fragment() {
         }
 
         songClickListener = SongClickListener {
-//            Toast.makeText(activity, "this is item has image id: " + it.toString(), Toast.LENGTH_LONG).show()
-            val playingFragment = PlayingFragment()
-            (activity as MainActivity?)!!.loadFragment(playingFragment)
+            Toast.makeText(activity, "this is item has image id: " + it.toString(), Toast.LENGTH_LONG).show()
+            this.findNavController().navigate(R.id.action_homeFragment_to_playingFragment)
         }
         listSongAdapter = ListSongAdapter(songClickListener)
         viewModel.listSong.observe(viewLifecycleOwner, Observer { songs ->
@@ -73,6 +70,10 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = listSongAdapter
+        }
+
+        binding.avatar.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
         }
 
         return binding.root

@@ -5,20 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import com.example.musicplayerapp.R
-import com.example.musicplayerapp.activity.MainActivity
-import com.example.musicplayerapp.databinding.FragmentProfileBinding
+import com.example.musicplayerapp.databinding.FragmentSignUpBinding
 
-class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
-
+class SignUpFragment : Fragment() {
+    private lateinit var binding: FragmentSignUpBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileBinding.inflate(layoutInflater)
-
+        binding = FragmentSignUpBinding.inflate(layoutInflater)
         return binding.root
     }
 }

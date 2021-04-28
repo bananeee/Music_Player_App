@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.R
@@ -30,13 +31,9 @@ class FavoriteListFragment : Fragment() {
     ): View? {
         binding = FragmentFavoriteListBinding.inflate(layoutInflater)
 
-        //Display bottom navigation and playing container
-        (activity as MainActivity?)!!.displayBottomNavigationAndPlaying()
-
         favoriteSongRecyclerView = binding.favoriteSong
         songClickListener = SongClickListener {
-            val playingFragment = PlayingFragment()
-            (activity as MainActivity?)!!.loadFragment(playingFragment)
+            this.findNavController().navigate(R.id.action_favoriteListFragment_to_playingFragment)
         }
         favoriteSongAdapter = ListSongAdapter(songClickListener)
         favoriteSongAdapter.submitList(favoriteSong)

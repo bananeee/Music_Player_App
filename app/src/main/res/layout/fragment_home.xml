@@ -37,15 +37,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="10"
-                    android:background="@drawable/search_bar"
+                    android:background="@drawable/bg_search_bar"
                     android:searchIcon="@drawable/search_icon" />
 
                 <ImageView
+                    android:id="@+id/avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_weight="1"
-                    android:src="@drawable/avatar" />
+                    android:src="@drawable/ic_avatar" />
             </LinearLayout>
 
             <TextView
