@@ -14,6 +14,7 @@ buildscript {
         version_retrofit = "2.9.0"
         version_retrofit_coroutines_adapter = "0.9.2"
         version_recyclerview = "1.2.0-alpha05"
+        version_exo_player = "2.13.3"
     }
     repositories {
         google()
@@ -22,6 +23,8 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.35.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

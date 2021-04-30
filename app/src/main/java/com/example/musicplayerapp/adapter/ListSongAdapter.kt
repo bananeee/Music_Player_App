@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayerapp.model.Song
+import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.R
 
 class ListSongAdapter(val songClickListener: SongClickListener) :
@@ -24,6 +24,7 @@ class ListSongAdapter(val songClickListener: SongClickListener) :
     }
 
     class SongViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        // TODO: Change ViewHolder attribute name
         val imgId: ImageView = view.findViewById(R.id.image)
         val songName: TextView = view.findViewById(R.id.songName)
         val singer: TextView = view.findViewById(R.id.singer)
@@ -41,16 +42,17 @@ class ListSongAdapter(val songClickListener: SongClickListener) :
 
         viewHolder.itemView.setOnClickListener{songClickListener.onClick(currentItem)}
 
-        viewHolder.imgId.setImageResource(currentItem.imgId)
-        viewHolder.songName.text = currentItem.songName
-        viewHolder.singer.text = currentItem.singer
-        if (currentItem.isPlaying) {
-            viewHolder.playing.setImageResource(R.drawable.ic_pause)
-        } else {
-            viewHolder.playing.setImageResource(R.drawable.ic_play_arrow)
-        }
+//        viewHolder.imgId.setImageResource(currentItem.bigCover)
+        viewHolder.songName.text = currentItem.title
+        viewHolder.singer.text = currentItem.artist
+//        if (currentItem.mediaID) {
+//            viewHolder.playing.setImageResource(R.drawable.ic_pause)
+//        } else {
+//            viewHolder.playing.setImageResource(R.drawable.ic_play_arrow)
+//        }
+        viewHolder.playing.setImageResource(R.drawable.ic_pause)
 
-        if (currentItem.isFavorite) {
+        if (currentItem.favorite) {
             viewHolder.favorite.setImageResource(R.drawable.ic_favorite)
         } else {
             viewHolder.favorite.setImageResource(R.drawable.ic_favorite_border)
@@ -58,6 +60,6 @@ class ListSongAdapter(val songClickListener: SongClickListener) :
     }
 }
 
-class SongClickListener(val clickListener: (songId: Int) -> Unit) {
-    fun onClick(song: Song) = clickListener(song.imgId)
+class SongClickListener(val clickListener: (songId: String) -> Unit) {
+    fun onClick(song: Song) = clickListener(song.title)
 }

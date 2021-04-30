@@ -12,8 +12,7 @@ import com.example.musicplayerapp.activity.MainActivity
 import com.example.musicplayerapp.adapter.ListSongAdapter
 import com.example.musicplayerapp.adapter.SongClickListener
 import com.example.musicplayerapp.databinding.FragmentFavoriteListBinding
-import com.example.musicplayerapp.model.Album
-import com.example.musicplayerapp.model.Song
+import com.example.musicplayerapp.data.entities.Song
 
 class FavoriteListFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteListBinding

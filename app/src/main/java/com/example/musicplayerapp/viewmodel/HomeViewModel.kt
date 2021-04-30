@@ -1,12 +1,11 @@
 package com.example.musicplayerapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.musicplayerapp.R
-import com.example.musicplayerapp.model.Album
-import com.example.musicplayerapp.model.Song
+import com.example.musicplayerapp.data.entities.Album
+import com.example.musicplayerapp.data.entities.Song
 
 class HomeViewModel() : ViewModel() {
     private var _listSong = MutableLiveData<ArrayList<Song>>()
@@ -27,17 +26,17 @@ class HomeViewModel() : ViewModel() {
         if (_listSong.value == null)
             _listSong.value = ArrayList()
 
-        for (i: Int in 1..10){
-            _listSong.value?.add(
-                    Song(
-                            R.drawable.unnamed,
-                            "Wind",
-                            "Troye Sivan",
-                            false,
-                            false
-                    )
-            )
-        }
+//        for (i: Int in 1..10){
+//            _listSong.value?.add(
+//                    Song(
+//                            R.drawable.unnamed,
+//                            "Wind",
+//                            "Troye Sivan",
+//                            false,
+//                            false
+//                    )
+//            )
+//        }
     }
 
     private fun getAlbums() {

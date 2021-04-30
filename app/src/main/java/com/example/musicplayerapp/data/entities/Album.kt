@@ -1,4 +1,4 @@
-package com.example.musicplayerapp.model
+package com.example.musicplayerapp.data.entities
 
 data class Album(
         var albumImg: Int,

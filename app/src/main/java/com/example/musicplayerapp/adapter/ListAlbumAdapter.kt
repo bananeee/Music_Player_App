@@ -8,9 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayerapp.model.Album
+import com.example.musicplayerapp.data.entities.Album
 import com.example.musicplayerapp.R
-import com.example.musicplayerapp.model.Song
 
 class ListAlbumAdapter : ListAdapter<Album, ListAlbumAdapter.AlbumViewHolder>(DiffCallback){
     class AlbumViewHolder(view: View) :  RecyclerView.ViewHolder(view){
