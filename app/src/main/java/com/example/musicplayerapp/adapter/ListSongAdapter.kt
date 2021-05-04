@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.R
+import com.example.musicplayerapp.data.entities.Song
 
-class ListSongAdapter(val songClickListener: SongClickListener) :
+class ListSongAdapter(
+    private val songClickListener: SongClickListener
+) :
     ListAdapter<Song, ListSongAdapter.SongViewHolder>(DiffCallback) {
     companion object DiffCallback : DiffUtil.ItemCallback<Song>() {
         override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
@@ -19,7 +21,7 @@ class ListSongAdapter(val songClickListener: SongClickListener) :
         }
 
         override fun areContentsTheSame(oldItem: Song, newItem: Song): Boolean {
-            return oldItem.equals(newItem)
+            return oldItem.mediaId == newItem.mediaId && oldItem.favorite == newItem.favorite
         }
     }
 
@@ -40,12 +42,13 @@ class ListSongAdapter(val songClickListener: SongClickListener) :
     override fun onBindViewHolder(viewHolder: SongViewHolder, position: Int) {
         val currentItem = getItem(position)
 
-        viewHolder.itemView.setOnClickListener{songClickListener.onClick(currentItem)}
+        viewHolder.itemView.setOnClickListener { songClickListener.onClick(currentItem) }
 
 //        viewHolder.imgId.setImageResource(currentItem.bigCover)
+        viewHolder.imgId.setImageResource(R.drawable.blue_neighbourhood)
         viewHolder.songName.text = currentItem.title
         viewHolder.singer.text = currentItem.artist
-//        if (currentItem.mediaID) {
+//        if (currentItem.mediaId) {
 //            viewHolder.playing.setImageResource(R.drawable.ic_pause)
 //        } else {
 //            viewHolder.playing.setImageResource(R.drawable.ic_play_arrow)
@@ -60,6 +63,6 @@ class ListSongAdapter(val songClickListener: SongClickListener) :
     }
 }
 
-class SongClickListener(val clickListener: (songId: String) -> Unit) {
-    fun onClick(song: Song) = clickListener(song.title)
+class SongClickListener(val clickListener: (song: Song) -> Unit) {
+    fun onClick(song: Song) = clickListener(song)
 }

@@ -13,7 +13,7 @@
         android:layout_marginTop="24dp"
         android:scaleType="center"
         android:src="@drawable/background"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +54,9 @@
         app:layout_constraintTop_toTopOf="@+id/back" />
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:id="@+id/songCover"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:scaleType="fitCenter"
         android:src="@drawable/original"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
@@ -157,17 +158,17 @@
         app:layout_constraintStart_toEndOf="@+id/songName"
         app:layout_constraintTop_toTopOf="@+id/songName" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <SeekBar
+        android:id="@+id/seekBar"
+        style="?android:attr/seekBarStyle"
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:max="342"
-        android:min="0"
-        android:progress="146"
+        tools:max="342"
+        tools:min="0"
+        tools:progress="146"
         android:progressTint="@color/blue_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -175,6 +176,7 @@
         app:layout_constraintTop_toBottomOf="@+id/singer" />
 
     <TextView
+        android:id="@+id/curTimePos"
         style="@style/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -182,10 +184,10 @@
         android:text="1:36"
         android:textColor="@color/blue_light"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/timeDur"
         style="@style/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -193,6 +195,6 @@
         android:text="3:42"
         android:textColor="@color/blue_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

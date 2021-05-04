@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -37,6 +38,7 @@ class MusicNotificationManager(
             notificationListener
         ).apply {
             setSmallIcon(R.drawable.exo_notification_small_icon)
+            setColor(ContextCompat.getColor(context, R.color.pink_medium))
             setMediaSessionToken(sessionToken)
             setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         }
@@ -50,6 +52,8 @@ class MusicNotificationManager(
         PlayerNotificationManager.MediaDescriptionAdapter {
 
         override fun getCurrentContentTitle(player: Player): CharSequence {
+//          TODO: This code is really ugly, need to update it
+            newSongCallback()
             return mediaController.metadata.description.title.toString()
         }
 

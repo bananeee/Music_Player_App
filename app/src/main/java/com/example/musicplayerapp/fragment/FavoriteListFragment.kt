@@ -50,16 +50,16 @@ class FavoriteListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        for (j: Int in 1..10) {
-            favoriteSong.add(
-                    Song(
-                            R.drawable.unnamed,
-                            "Wind",
-                            "Troye Sivan",
-                            false,
-                            false
-                    )
-            )
-        }
+//        for (j: Int in 1..10) {
+//            favoriteSong.add(
+//                    Song(
+//                            R.drawable.unnamed,
+//                            "Wind",
+//                            "Troye Sivan",
+//                            false,
+//                            false
+//                    )
+//            )
+//        }
     }
 }

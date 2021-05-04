@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listAlbum"
+                android:id="@+id/listAlbums"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -80,10 +80,10 @@
                 android:text="Top Tracks"
                 android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/listAlbum" />
+                app:layout_constraintTop_toBottomOf="@+id/listAlbums" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listSong"
+                android:id="@+id/listSongs"
                 android:layout_width="0dp"
                 android:layout_height="500dp"
                 android:layout_marginLeft="@dimen/app_margin"

@@ -13,7 +13,9 @@ import com.example.musicplayerapp.fragment.FavoriteListFragment
 import com.example.musicplayerapp.fragment.HomeFragment
 import com.example.musicplayerapp.fragment.PlayingFragment
 import com.example.musicplayerapp.fragment.ProfileFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
 
