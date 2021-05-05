@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.RequestManager
+import androidx.navigation.findNavController
 import com.example.musicplayerapp.R
-import com.example.musicplayerapp.activity.MainActivity
 import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.databinding.FragmentPlayingBinding
 import com.example.musicplayerapp.media.extension.isPlaying
@@ -46,17 +44,11 @@ class PlayingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPlayingBinding.inflate(layoutInflater)
 
-//        TODO: Using navController listener to remove this piece of code
-        //Hide bottom navigation and playing container
-        (activity as MainActivity?)!!.hideBottomNavigationAndPlaying()
-
-        val homeFragment = HomeFragment()
-        binding.back.setOnClickListener {
-            (activity as MainActivity?)!!.loadFragment(homeFragment)
-            (activity as MainActivity?)!!.highlightHomeIcon()
+        binding.back.setOnClickListener {view ->
+            view.findNavController().navigateUp()
         }
 
         subscribeToObservers()

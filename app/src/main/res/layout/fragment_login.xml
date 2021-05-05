@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.LoginFragment">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="400dp"
+        android:maxWidth="400dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/headphone_pana"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/btn_margin"
+        android:paddingRight="@dimen/btn_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+
+        <EditText
+            android:id="@+id/username_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="Enter your username"
+            android:background="@drawable/bg_button_light"
+            android:hint="Username"
+            android:inputType="text"
+            android:padding="@dimen/btn_padding"
+            android:textSize="@dimen/btn_text_size" />
+
+        <EditText
+            android:id="@+id/password_login"
+            style="@style/textBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/btn_space"
+            android:layout_marginBottom="@dimen/btn_space"
+            android:autofillHints="Enter your password"
+            android:background="@drawable/bg_button_light"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="@dimen/btn_padding"
+            android:textSize="@dimen/btn_text_size" />
+
+        <Button
+            android:id="@+id/btn_sign_up"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_dark"
+            android:padding="@dimen/btn_padding"
+            android:text="Log In"
+            android:textAllCaps="false"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/btn_text_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
