@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         navController.addOnDestinationChangedListener{ _, destination, _ ->
-           if (destination.id == R.id.playingFragment)
+           if (destination.id == R.id.playingFragment ||
+                   destination.id == R.id.resetPasswordFragment)
                hideBottomNavigationAndPlaying()
             else
                displayBottomNavigationAndPlaying()

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "879867564865",
+    "project_id": "btlmobile-548ce",
+    "storage_bucket": "btlmobile-548ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879867564865:android:d75c72af5a7a33d34947c0",
+        "android_client_info": {
+          "package_name": "com.example.musicplayerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879867564865-rlifcgtff8h81fdmohrbkt0deigkkc5f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.musicplayerapp",
+            "certificate_hash": "fd11aae9da8db46b98003344a95b4e9dfcc704bf"
+          }
+        },
+        {
+          "client_id": "879867564865-of0i2focfqvn17o16fjuc8g9givr6ctm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3EZ_rYixdon2AciqXhiGVZqqh3n4up8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879867564865-of0i2focfqvn17o16fjuc8g9givr6ctm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
