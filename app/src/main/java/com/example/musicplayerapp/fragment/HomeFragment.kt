@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -48,6 +48,20 @@ class HomeFragment : Fragment() {
         binding.avatar.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
         }
+
+        binding.searchBar.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+//                    TODO: Place text search function here
+                    newText?.let { mainActivityViewModel.fetchSearchSongs(it) }
+                    return false
+                }
+            }
+        )
 
         return binding.root
     }

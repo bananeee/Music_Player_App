@@ -147,6 +147,7 @@ class MusicService : MediaBrowserServiceCompat() {
 
         exoPlayer.removeListener(musicPlayerEventListener)
         exoPlayer.release()
+        Log.d("MusicService", "Destroy music service")
     }
 
     /**

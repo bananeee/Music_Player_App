@@ -6,9 +6,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.musicplayerapp.R
 import com.example.musicplayerapp.data.entities.Album
 import com.example.musicplayerapp.data.entities.Song
+import com.example.musicplayerapp.data.remote.MusicDatabase
 import com.example.musicplayerapp.data.utils.Constants.MEDIA_ROOT_ID
 import com.example.musicplayerapp.data.utils.Resource
 import com.example.musicplayerapp.media.MusicServiceConnection
@@ -16,12 +18,17 @@ import com.example.musicplayerapp.media.extension.isPlayEnable
 import com.example.musicplayerapp.media.extension.isPlaying
 import com.example.musicplayerapp.media.extension.isPrepared
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val musicServiceConnection: MusicServiceConnection
+    private val musicServiceConnection: MusicServiceConnection,
+    @Named("ViewModelMusicDatabase") private val musicDatabase: MusicDatabase
 ) : ViewModel() {
+
+    private lateinit var allSongs: List<Song>
 
     private val _listSongs = MutableLiveData<Resource<List<Song>>>()
     val listSongs: LiveData<Resource<List<Song>>>
@@ -32,6 +39,7 @@ class MainActivityViewModel @Inject constructor(
     val listAlbums: LiveData<ArrayList<Album>>
         get() = _listAlbums
 
+    //    TODO: Implement handling error
     val isConnected = musicServiceConnection.isConnected
     val networkError = musicServiceConnection.networkError
     val curPlayingSong = musicServiceConnection.curPlayingSong
@@ -41,6 +49,11 @@ class MainActivityViewModel @Inject constructor(
 //        TODO: Clear this when making album
         getAlbums()
 
+        fetchAllSongs()
+        subscribeToServiceDataSource()
+    }
+
+    private fun subscribeToServiceDataSource() {
         _listSongs.value = Resource.loading(null)
         musicServiceConnection.subscribe(
             MEDIA_ROOT_ID,
@@ -50,19 +63,35 @@ class MainActivityViewModel @Inject constructor(
                     children: MutableList<MediaBrowserCompat.MediaItem>
                 ) {
                     super.onChildrenLoaded(parentId, children)
-                    val songs = children.map {
-                        Song(
-                            it.mediaId!!,
-                            it.description.title.toString(),
-                            it.description.mediaUri.toString(),
-                            it.description.subtitle.toString(),
-                            it.description.iconUri.toString()
-                        )
-                    }
-                    _listSongs.value = Resource.success(songs)
-                    Log.d("MainActivityViewModel", "Mapping songs from firebase to listSong")
+//                    val songs = children.map {
+//                        Song(
+//                            it.mediaId!!,
+//                            it.description.title.toString(),
+//                            it.description.mediaUri.toString(),
+//                            it.description.subtitle.toString(),
+//                            it.description.iconUri.toString()
+//                        )
+//                    }
+//                    _listSongs.value = Resource.success(songs)
+//                    Log.d("MainActivityViewModel", "Mapping songs from firebase to listSong")
                 }
             })
+    }
+
+    fun fetchAllSongs() {
+        viewModelScope.launch {
+            allSongs = musicDatabase.getAllSongs()
+            _listSongs.value = Resource.success(allSongs)
+        }
+    }
+
+    fun fetchSearchSongs(query: String) {
+        val regex = query.split(" ").joinToString { "(?=$it)" }.toRegex(RegexOption.IGNORE_CASE)
+        val songs = allSongs.filter {
+            regex.containsMatchIn(it.title)
+        }
+
+        _listSongs.value = Resource.success(songs)
     }
 
     fun skipToNextSong() {
@@ -127,4 +156,5 @@ class MainActivityViewModel @Inject constructor(
             )
         }
     }
+
 }
