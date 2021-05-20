@@ -139,6 +139,10 @@ class MainActivityViewModel @Inject constructor(
         musicServiceConnection.unsubscribe(
             MEDIA_ROOT_ID,
             object : MediaBrowserCompat.SubscriptionCallback() {})
+
+//        TODO: This won't fix notification-service-never-destroy bug, but this bug only appears in api <= 25
+        musicServiceConnection.release()
+        Log.d("MainActivityViewModel", "Release")
     }
 
 
@@ -151,7 +155,8 @@ class MainActivityViewModel @Inject constructor(
                 Album(
                     R.drawable.blue_neighbourhood,
                     "Wind",
-                    "Troye Sivan"
+                    "Troye Sivan",
+                    "test"
                 )
             )
         }
