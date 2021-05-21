@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicplayerapp.R
 import com.example.musicplayerapp.data.entities.Album
 import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.data.remote.MusicDatabase
@@ -35,8 +34,8 @@ class MainActivityViewModel @Inject constructor(
         get() = _listSongs
 
     //    TODO: Change this when making album
-    private var _listAlbums = MutableLiveData<ArrayList<Album>>()
-    val listAlbums: LiveData<ArrayList<Album>>
+    private var _listAlbums = MutableLiveData<Resource<List<Album>>>()
+    val listAlbums: LiveData<Resource<List<Album>>>
         get() = _listAlbums
 
     //    TODO: Implement handling error
@@ -47,8 +46,9 @@ class MainActivityViewModel @Inject constructor(
 
     init {
 //        TODO: Clear this when making album
-        getAlbums()
+//        getAlbums()
 
+        fetchAllAlbums()
         fetchAllSongs()
         subscribeToServiceDataSource()
     }
@@ -76,6 +76,23 @@ class MainActivityViewModel @Inject constructor(
 //                    Log.d("MainActivityViewModel", "Mapping songs from firebase to listSong")
                 }
             })
+    }
+
+    fun fetchAllAlbums() {
+        viewModelScope.launch {
+            _listAlbums.value = Resource.success(musicDatabase.getAllAlbums())
+        }
+    }
+
+    fun fetchSongsFromAlbum(albumTitle: String) {
+        viewModelScope.launch {
+            val songs = musicDatabase.getSongsFromAlbum(albumTitle)
+            if (songs.isNotEmpty()) {
+                _listSongs.value = Resource.success(songs)
+            } else {
+                _listSongs.value = Resource.error("List is empty or error occurs", emptyList())
+            }
+        }
     }
 
     fun fetchAllSongs() {
@@ -147,19 +164,19 @@ class MainActivityViewModel @Inject constructor(
 
 
     //    TODO: Clear this when making album
-    private fun getAlbums() {
-        if (_listAlbums.value == null)
-            _listAlbums.value = ArrayList()
-        for (j: Int in 1..10) {
-            _listAlbums.value?.add(
-                Album(
-                    R.drawable.blue_neighbourhood,
-                    "Wind",
-                    "Troye Sivan",
-                    "test"
-                )
-            )
-        }
-    }
+//    private fun getAlbums() {
+//        if (_listAlbums.value == null)
+//            _listAlbums.value = ArrayList()
+//        for (j: Int in 1..10) {
+//            _listAlbums.value?.add(
+//                Album(
+//                    R.drawable.blue_neighbourhood,
+//                    "Wind",
+//                    "Troye Sivan",
+//                    "test"
+//                )
+//            )
+//        }
+//    }
 
 }

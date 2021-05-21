@@ -2,11 +2,11 @@ package com.example.musicplayerapp.activity
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.RequestManager
 import com.example.musicplayerapp.R
 import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.databinding.ActivityMainBinding
@@ -14,6 +14,7 @@ import com.example.musicplayerapp.media.extension.isPlaying
 import com.example.musicplayerapp.media.extension.toSong
 import com.example.musicplayerapp.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     private var curPlayingSong: Song? = null
+
+    @Inject
+    lateinit var glide: RequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +57,10 @@ class MainActivity : AppCompatActivity() {
     private fun updatePlayingBar() {
         mainActivityViewModel.curPlayingSong.observe(this) { mediaMetadata ->
             if (mediaMetadata == null) return@observe
-                curPlayingSong = mediaMetadata.toSong()
-                binding.title.text = mediaMetadata.description.title
-                binding.artist.text = mediaMetadata.description.subtitle
+            curPlayingSong = mediaMetadata.toSong()
+            glide.load(mediaMetadata.description.iconUri).into(binding.songCover)
+            binding.title.text = mediaMetadata.description.title
+            binding.artist.text = mediaMetadata.description.subtitle
         }
 
         mainActivityViewModel.playbackState.observe(this) {

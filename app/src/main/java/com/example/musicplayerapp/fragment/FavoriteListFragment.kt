@@ -11,15 +11,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayerapp.R
 import com.example.musicplayerapp.activity.MainActivity
 import com.example.musicplayerapp.adapter.ListSongAdapter
-import com.example.musicplayerapp.adapter.SongClickListener
+import com.example.musicplayerapp.adapter.ListSongAdapter.SongClickListener
 import com.example.musicplayerapp.databinding.FragmentFavoriteListBinding
 import com.example.musicplayerapp.data.entities.Song
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FavoriteListFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteListBinding
 
     private lateinit var favoriteSongRecyclerView: RecyclerView
-    private lateinit var favoriteSongAdapter: ListSongAdapter
+//    private lateinit var favoriteSongAdapter: ListSongAdapter
+    @Inject
+    lateinit var favoriteSongAdapter: ListSongAdapter
     private lateinit var songClickListener: SongClickListener
 
     private var favoriteSong: ArrayList<Song> = ArrayList()
@@ -34,7 +39,8 @@ class FavoriteListFragment : Fragment() {
         songClickListener = SongClickListener {
             this.findNavController().navigate(R.id.action_favoriteListFragment_to_playingFragment)
         }
-        favoriteSongAdapter = ListSongAdapter(songClickListener)
+//        favoriteSongAdapter = ListSongAdapter(songClickListener)
+        favoriteSongAdapter.songClickListener = songClickListener
         favoriteSongAdapter.submitList(favoriteSong)
         favoriteSongRecyclerView.apply {
             setHasFixedSize(true)

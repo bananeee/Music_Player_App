@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import java.util.*
 
 class MusicDatabase {
     private val firestore = FirebaseFirestore.getInstance()
@@ -28,8 +29,18 @@ class MusicDatabase {
         return try {
             albumCollection.get().await().toObjects(Album::class.java)
         } catch (e: Exception) {
-            Log.e("MusicDatabase", "Cannot get song list")
+            Log.e("MusicDatabase", "Cannot get album list, $e")
             emptyList<Album>()
+        }
+    }
+
+    suspend fun getSongsFromAlbum(albumTitle: String): List<Song> {
+        return try {
+            val albumReference = albumCollection.document(albumTitle.toLowerCase(Locale.getDefault()))
+            songCollection.whereEqualTo("album", albumReference).get().await().toObjects(Song::class.java)
+        } catch (e: Exception) {
+            Log.e("MusicDatabase", "Cannot get any songs from album $albumTitle, $e")
+            emptyList<Song>()
         }
     }
 

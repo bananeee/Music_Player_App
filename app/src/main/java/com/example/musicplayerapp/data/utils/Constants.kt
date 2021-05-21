@@ -5,6 +5,8 @@ object Constants {
 
     const val ALBUM_COLLECTION = "album"
 
+    const val USER_COLLECTION = "users"
+
     const val NOTIFICATION_CHANEL_ID = "music"
 
     const val NOTIFICATION_ID = 1
