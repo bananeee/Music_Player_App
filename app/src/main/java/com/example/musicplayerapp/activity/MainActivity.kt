@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,20 +33,23 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.globleActionToPlayingFragment)
         }
 
-        navController.addOnDestinationChangedListener{ _, destination, _ ->
-           if (destination.id == R.id.playingFragment)
-               hideBottomNavigationAndPlaying()
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.playingFragment
+                ||
+                destination.id == R.id.resetPasswordFragment
+            )
+                hideBottomNavigationAndPlaying()
             else
-               displayBottomNavigationAndPlaying()
+                displayBottomNavigationAndPlaying()
         }
     }
 
-    private fun hideBottomNavigationAndPlaying(){
+    private fun hideBottomNavigationAndPlaying() {
         binding.bottomNavigation.visibility = View.GONE
         binding.playing.visibility = View.GONE
     }
 
-    private fun displayBottomNavigationAndPlaying(){
+    private fun displayBottomNavigationAndPlaying() {
         binding.bottomNavigation.visibility = View.VISIBLE
         binding.playing.visibility = View.VISIBLE
     }
