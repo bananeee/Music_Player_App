@@ -27,7 +27,7 @@ class ListSongAdapter(
 
     class SongViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // TODO: Change ViewHolder attribute name
-        val imgId: ImageView = view.findViewById(R.id.image)
+        val imgId: ImageView = view.findViewById(R.id.imageUpload)
         val songName: TextView = view.findViewById(R.id.songName)
         val singer: TextView = view.findViewById(R.id.singer)
         val playing: ImageView = view.findViewById(R.id.isPlaying)

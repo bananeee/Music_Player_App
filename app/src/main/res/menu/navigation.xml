@@ -11,6 +11,11 @@
         android:icon="@drawable/ic_queue_music"/>
 
     <item
+        android:id="@+id/uploadSongFragment"
+        android:title="Upload"
+        android:icon="@drawable/ic_publish"/>
+
+    <item
         android:id="@+id/profileFragment"
         android:title="Profile"
         android:icon="@drawable/ic_perm_identity"/>
