@@ -37,8 +37,7 @@ class MainActivity : AppCompatActivity() {
             if (destination.id == R.id.playingFragment
                 ||
                 destination.id == R.id.resetPasswordFragment
-                ||
-                destination.id == R.id.uploadFragment
+
             )
                 hideBottomNavigationAndPlaying()
             else

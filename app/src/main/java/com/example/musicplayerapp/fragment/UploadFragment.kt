@@ -15,10 +15,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.example.musicplayerapp.R
 import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.data.remote.MusicDatabase
 import com.example.musicplayerapp.data.utils.Constants.AUDIO
@@ -45,6 +48,8 @@ class UploadFragment : Fragment() {
     private lateinit var musicDatabase: MusicDatabase
 
     private lateinit var viewModel: UploadViewModel
+
+    private val testList = listOf("Album 1", "Album 2", "Album 3")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,6 +78,16 @@ class UploadFragment : Fragment() {
             upload()
         }
 
+        this.context?.let {
+            ArrayAdapter.createFromResource(
+                it,
+                R.array.album_array,
+                android.R.layout.simple_spinner_item
+            ).also {adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.albumDropDown.adapter = adapter
+            }
+        }
         return binding.root
     }
 
@@ -90,13 +105,15 @@ class UploadFragment : Fragment() {
                             viewModel.imageUri.value
                         )
                     binding.btnImage.setImageBitmap(bitmap)
+                    binding.plusIcon.visibility = View.GONE
                 }
 
                 requestCode == AUDIO -> {
 //                    songUri = data?.data!!
                     viewModel.setSongUri(data?.data!!)
 //                    binding.uriTxt.text = songUri.toString()
-                    binding.uriTxt.text = viewModel.songUri.value.toString()
+//                    binding.btn_audio.text = viewModel.songUri.value.toString()
+                    binding.btnAudio.text = viewModel.songUri.value.toString()
                 }
             }
         }

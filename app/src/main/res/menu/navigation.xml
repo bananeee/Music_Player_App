@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:id="@+id/homeFragment"
-    android:title="Home"
-    android:icon="@drawable/ic_home"/>
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
 
     <item
         android:id="@+id/favoriteListFragment"
-        android:title="Favorite"
-        android:icon="@drawable/ic_queue_music"/>
+        android:icon="@drawable/ic_queue_music"
+        android:title="Favorite" />
 
     <item
         android:id="@+id/uploadFragment"
         android:title="Upload"
-        android:icon="@drawable/ic_queue_music"/>
+        android:icon="@drawable/ic_publish"/>
 
     <item
         android:id="@+id/profileFragment"
-        android:title="Profile"
-        android:icon="@drawable/ic_perm_identity"/>
+        android:icon="@drawable/ic_perm_identity"
+        android:title="Profile" />
 </menu>
