@@ -21,7 +21,6 @@ import com.google.firebase.ktx.Firebase
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var musicDatabase: MusicDatabase
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: ProfileViewModel
 

@@ -58,7 +58,6 @@ class LoginFragment : Fragment() {
 
     private fun login() {
         when {
-
             TextUtils.isEmpty(binding.usernameLogin.text.toString()) -> {
                 Toast.makeText(requireContext(), "Please enter username", Toast.LENGTH_LONG).show()
             }

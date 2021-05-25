@@ -14,4 +14,8 @@ object Constants {
     const val NETWORK_ERROR = "network error"
 
     const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
+
+    const val AUDIO = 0
+
+    const val IMAGE = 1
 }

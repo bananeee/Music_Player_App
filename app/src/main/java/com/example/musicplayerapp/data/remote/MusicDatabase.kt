@@ -1,6 +1,10 @@
 package com.example.musicplayerapp.data.remote
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.musicplayerapp.data.entities.Album
 import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.data.utils.Constants.SONG_COLLECTION
 import com.example.musicplayerapp.data.utils.Constants.USER_COLLECTION
@@ -32,10 +36,12 @@ class MusicDatabase {
             .addOnSuccessListener {
                 Log.d(
                     "MusicDatabase",
-                    "DocumentSnapshot successfully written!"
+                    "Write new user successfully!"
                 )
             }
-            .addOnFailureListener { e -> Log.w("MusicDatabase", "Error writing document", e) }
+            .addOnFailureListener { e ->
+                Log.w("MusicDatabase", "writeNewUser", e)
+            }
     }
 
     fun getUser(username: String, myCallback: (User) -> Unit) {
@@ -45,8 +51,8 @@ class MusicDatabase {
                 myCallback(user)
             }
 
-        }.addOnFailureListener { exception ->
-            Log.d("MusicDatabase", exception.toString())
+        }.addOnFailureListener { e ->
+            Log.w("MusicDatabase", "getUser", e)
         }
     }
 
@@ -61,24 +67,20 @@ class MusicDatabase {
                     myCallback(user)
                 }
 
-            }.addOnFailureListener { exception ->
-                Log.d("MusicDatabase", exception.toString())
+            }
+            .addOnFailureListener { e ->
+                Log.w("MusicDatabase", "getUserByEmail", e)
             }
     }
 
-    fun fetchUserData(username: String) {
-        userCollection.document(username).get().addOnSuccessListener {
-
-            if (it != null) {
-                Log.d("MusicDatabase", it.toObject<User>()?.email.toString())
-            } else {
-                Log.d("MusicDatabase", "No user")
+    fun writeSong(song: Song, context: Context) {
+        songCollection.add(song)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Successfully Uploaded !!!", Toast.LENGTH_LONG).show()
             }
-        }.addOnFailureListener {
-            Log.d("MusicDatabase", it.toString())
-        }
+            .addOnFailureListener { e ->
+                Log.w("MusicDatabase", "writeSong", e)
+            }
 
     }
-
-
 }
