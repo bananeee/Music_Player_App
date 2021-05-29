@@ -50,7 +50,7 @@ class ListSongAdapter @Inject constructor(
 
     companion object DiffCallback : DiffUtil.ItemCallback<Song>() {
         override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
-            return oldItem == newItem
+            return oldItem.mediaId == newItem.mediaId
         }
 
         override fun areContentsTheSame(oldItem: Song, newItem: Song): Boolean {

@@ -1,5 +1,8 @@
 package com.example.musicplayerapp.data.utils
 
+import com.example.musicplayerapp.data.entities.User
+
+
 object Constants {
     const val SONG_COLLECTION = "songs"
 
@@ -16,4 +19,6 @@ object Constants {
     const val NETWORK_ERROR = "network error"
 
     const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
+
+    val user = User("dai", "dainguyenduc01@gmail.com", "123456")
 }
