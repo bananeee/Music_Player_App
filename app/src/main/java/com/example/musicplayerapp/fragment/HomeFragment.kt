@@ -60,7 +60,8 @@ class HomeFragment : Fragment() {
         binding.searchBar.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    TODO("Not yet implemented")
+//                    TODO("Not yet implemented")
+                    return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
@@ -70,6 +71,19 @@ class HomeFragment : Fragment() {
                 }
             }
         )
+
+        binding.searchBar.setOnQueryTextFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                binding.listAlbums.visibility = View.GONE
+                binding.textView.visibility = View.GONE
+                binding.textView2.visibility = View.GONE
+            } else {
+                binding.listAlbums.visibility = View.VISIBLE
+                binding.textView.visibility = View.VISIBLE
+                binding.textView2.visibility = View.VISIBLE
+            }
+
+        }
 
         return binding.root
     }
@@ -105,9 +119,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSongRecyclerView() {
-        songClickListener = SongClickListener {
-            mainActivityViewModel.playOrToggleSong(it)
+        songClickListener = SongClickListener { songClicked ->
+            mainActivityViewModel.playOrToggleSong(songClicked)
             this.findNavController().navigate(R.id.action_homeFragment_to_playingFragment)
+        }
+
+        songClickListener.favoriteListener = { favoriteSong ->
+            mainActivityViewModel.addFavoriteSong(favoriteSong.mediaId)
+            listSongAdapter.notifyDataSetChanged()
         }
 //        listSongAdapter = ListSongAdapter(songClickListener)
 
@@ -132,6 +151,10 @@ class HomeFragment : Fragment() {
                 Status.ERROR -> Log.d("HomeFragment", "Failed to retrieve songs")
                 Status.LOADING -> Log.d("HomeFragment", "Retrieving songs...")
             }
+        })
+
+        mainActivityViewModel.isCurPlayingSongFavorited.observe(viewLifecycleOwner, {
+            listSongAdapter.notifyDataSetChanged()
         })
 
 

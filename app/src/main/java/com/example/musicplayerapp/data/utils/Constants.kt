@@ -10,6 +10,8 @@ object Constants {
 
     const val USER_COLLECTION = "users"
 
+    const val USER_SONG_COLLECTION = "users_songs"
+
     const val NOTIFICATION_CHANEL_ID = "music"
 
     const val NOTIFICATION_ID = 1
@@ -20,5 +22,5 @@ object Constants {
 
     const val UPDATE_PLAYER_POSITION_INTERVAL = 100L
 
-    val user = User("dai", "dainguyenduc01@gmail.com", "123456")
+//    val user = User("dai", "dainguyenduc01@gmail.com", "123456")
 }

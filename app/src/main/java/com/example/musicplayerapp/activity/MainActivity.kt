@@ -2,6 +2,7 @@ package com.example.musicplayerapp.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -63,6 +64,12 @@ class MainActivity : AppCompatActivity() {
             binding.artist.text = mediaMetadata.description.subtitle
         }
 
+        mainActivityViewModel.isCurPlayingSongFavorited.observe(this) {
+            binding.favorite.setImageResource(
+                if (it) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            )
+        }
+
         mainActivityViewModel.playbackState.observe(this) {
             binding.play.setImageResource(
                 if (it?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play_arrow
@@ -72,6 +79,16 @@ class MainActivity : AppCompatActivity() {
         binding.play.setOnClickListener {
             curPlayingSong?.let {
                 mainActivityViewModel.playOrToggleSong(it, true)
+            }
+        }
+
+        binding.favorite.setOnClickListener {
+            curPlayingSong?.let { song ->
+                mainActivityViewModel.addFavoriteSong(song.mediaId)
+//                it as ImageView
+//                it.setImageResource(
+//                    if (song.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+//                )
             }
         }
     }

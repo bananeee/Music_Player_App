@@ -1,10 +1,12 @@
 package com.example.musicplayerapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,8 @@ import com.example.musicplayerapp.adapter.ListSongAdapter
 import com.example.musicplayerapp.adapter.ListSongAdapter.SongClickListener
 import com.example.musicplayerapp.databinding.FragmentFavoriteListBinding
 import com.example.musicplayerapp.data.entities.Song
+import com.example.musicplayerapp.data.utils.Status
+import com.example.musicplayerapp.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -21,13 +25,13 @@ import javax.inject.Inject
 class FavoriteListFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteListBinding
 
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
+
     private lateinit var favoriteSongRecyclerView: RecyclerView
-//    private lateinit var favoriteSongAdapter: ListSongAdapter
+
     @Inject
     lateinit var favoriteSongAdapter: ListSongAdapter
     private lateinit var songClickListener: SongClickListener
-
-    private var favoriteSong: ArrayList<Song> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,33 +40,46 @@ class FavoriteListFragment : Fragment() {
         binding = FragmentFavoriteListBinding.inflate(layoutInflater)
 
         favoriteSongRecyclerView = binding.favoriteSong
-        songClickListener = SongClickListener {
-            this.findNavController().navigate(R.id.action_favoriteListFragment_to_playingFragment)
-        }
-//        favoriteSongAdapter = ListSongAdapter(songClickListener)
-        favoriteSongAdapter.songClickListener = songClickListener
-        favoriteSongAdapter.submitList(favoriteSong)
-        favoriteSongRecyclerView.apply {
-            setHasFixedSize(true)
-            adapter = favoriteSongAdapter
-            layoutManager = LinearLayoutManager(activity)
-        }
+
+        setupSongRecyclerView()
 
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        for (j: Int in 1..10) {
-//            favoriteSong.add(
-//                    Song(
-//                            R.drawable.unnamed,
-//                            "Wind",
-//                            "Troye Sivan",
-//                            false,
-//                            false
-//                    )
-//            )
-//        }
+    private fun setupSongRecyclerView() {
+        songClickListener = SongClickListener{ songClicked ->
+            mainActivityViewModel.playOrToggleSong(songClicked)
+            this.findNavController().navigate(R.id.action_favoriteListFragment_to_playingFragment)
+        }
+
+        songClickListener.favoriteListener = { favoriteSong ->
+            mainActivityViewModel.addFavoriteSong(favoriteSong.mediaId)
+        }
+
+        favoriteSongAdapter.songClickListener = songClickListener
+
+        favoriteSongRecyclerView = binding.favoriteSong
+        favoriteSongRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
+            adapter = favoriteSongAdapter
+        }
+
+        mainActivityViewModel.listFavoriteSongs.observe(viewLifecycleOwner, { result ->
+            when (result.status) {
+                Status.SUCCESS -> {
+                    result.data.let { songs ->
+                        favoriteSongAdapter.submitList(songs)
+
+                        Log.d("HomeFragment", "Number of songs: " + songs?.size)
+                    }
+                }
+                Status.ERROR -> Log.d("HomeFragment", "Failed to retrieve songs")
+                Status.LOADING -> Log.d("HomeFragment", "Retrieving songs...")
+            }
+        })
+
+
     }
+
 }

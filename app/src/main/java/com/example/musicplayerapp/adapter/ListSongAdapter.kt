@@ -1,5 +1,6 @@
 package com.example.musicplayerapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,15 @@ class ListSongAdapter @Inject constructor(
         val currentItem = getItem(position)
 
         viewHolder.itemView.setOnClickListener { songClickListener.onClick(currentItem) }
+        viewHolder.favorite.setOnClickListener {
+            Log.d("ListSongAdapter", currentItem.favorite.toString())
+            if (currentItem.favorite) {
+                viewHolder.favorite.setImageResource(R.drawable.ic_favorite)
+            } else {
+                viewHolder.favorite.setImageResource(R.drawable.ic_favorite_border)
+            }
+            songClickListener.onFavorite(currentItem)
+        }
 
 //        viewHolder.imgId.setImageResource(currentItem.bigCover)
 //        viewHolder.imgId.setImageResource(R.drawable.blue_neighbourhood)
@@ -56,10 +66,15 @@ class ListSongAdapter @Inject constructor(
         override fun areContentsTheSame(oldItem: Song, newItem: Song): Boolean {
             return oldItem.mediaId == newItem.mediaId && oldItem.favorite == newItem.favorite
         }
+
     }
 
     class SongClickListener(val clickListener: (song: Song) -> Unit) {
+        lateinit var favoriteListener: (song: Song) -> Unit
+
         fun onClick(song: Song) = clickListener(song)
+
+        fun onFavorite(song: Song) = favoriteListener(song)
     }
 
     class SongViewHolder(view: View) : RecyclerView.ViewHolder(view) {

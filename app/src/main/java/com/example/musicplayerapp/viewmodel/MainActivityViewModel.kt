@@ -33,10 +33,20 @@ class MainActivityViewModel @Inject constructor(
     val listSongs: LiveData<Resource<List<Song>>>
         get() = _listSongs
 
+    private val _listFavoriteSongs = MutableLiveData<Resource<List<Song>>>()
+    val listFavoriteSongs: LiveData<Resource<List<Song>>>
+        get() = _listFavoriteSongs
+
     //    TODO: Change this when making album
     private var _listAlbums = MutableLiveData<Resource<List<Album>>>()
     val listAlbums: LiveData<Resource<List<Album>>>
         get() = _listAlbums
+
+    private var _isCurPlayingSongFavorited = MutableLiveData<Boolean>()
+    val isCurPlayingSongFavorited: LiveData<Boolean>
+        get() = _isCurPlayingSongFavorited
+
+    private var username: String
 
     //    TODO: Implement handling error
     val isConnected = musicServiceConnection.isConnected
@@ -45,11 +55,12 @@ class MainActivityViewModel @Inject constructor(
     val playbackState = musicServiceConnection.playbackState
 
     init {
-//        TODO: Clear this when making album
-//        getAlbums()
+//        TODO: Clear this when merge authenticate
+        username = "dai"
 
         fetchAllAlbums()
         fetchAllSongs()
+//        fetchFavoriteSongs()
         subscribeToServiceDataSource()
     }
 
@@ -97,13 +108,30 @@ class MainActivityViewModel @Inject constructor(
 
     fun fetchAllSongs() {
         viewModelScope.launch {
-            allSongs = musicDatabase.getAllSongs()
+//            allSongs = musicDatabase.getAllSongs()
+            allSongs = musicDatabase.getAllSongsFavorite(username)
             _listSongs.value = Resource.success(allSongs)
+
+            val favoriteSongs = allSongs.filter { song -> song.favorite }
+            _listFavoriteSongs.value = Resource.success(favoriteSongs)
+        }
+    }
+
+    fun fetchFavoriteSongs() {
+        viewModelScope.launch {
+//            val favoriteSongs = musicDatabase.getFavoriteSongs(username)
+//            _listFavoriteSongs.value = Resource.success(favoriteSongs)
+
+            val favoriteSongs = allSongs.filter { song -> song.favorite }
+            _listFavoriteSongs.value = Resource.success(favoriteSongs)
         }
     }
 
     fun fetchSearchSongs(query: String) {
-        val regex = query.split(" ").joinToString { "(?=$it)" }.toRegex(RegexOption.IGNORE_CASE)
+        val regex = query.split(" ").joinToString (
+            transform = {"(?=.*$it)"},
+            separator = ""
+        ).toRegex(RegexOption.IGNORE_CASE)
         val songs = allSongs.filter {
             regex.containsMatchIn(it.title)
         }
@@ -130,6 +158,11 @@ class MainActivityViewModel @Inject constructor(
      *   then pause playback, otherwise send "play" to resume playback.
      */
     fun playOrToggleSong(mediaItem: Song, toggle: Boolean = false) {
+        viewModelScope.launch {
+            val isFavorited = musicDatabase.isFavoriteSong(username, mediaItem.mediaId)
+            _isCurPlayingSongFavorited.value = isFavorited
+        }
+
         val isPrepared = playbackState.value?.isPrepared ?: false
         if (isPrepared && mediaItem.mediaId == curPlayingSong.value?.getString(METADATA_KEY_MEDIA_ID)) {
             playbackState.value?.let { playbackState ->
@@ -146,6 +179,7 @@ class MainActivityViewModel @Inject constructor(
                         )
                 }
             }
+
         } else {
             musicServiceConnection.transportControls.playFromMediaId(mediaItem.mediaId, null)
         }
@@ -162,21 +196,22 @@ class MainActivityViewModel @Inject constructor(
         Log.d("MainActivityViewModel", "Release")
     }
 
+    fun addFavoriteSong(songId: String) {
+        viewModelScope.launch {
+            musicDatabase.setFavoriteSong(username, songId)
+        }
+//        TODO: Test
+        val favoriteSongFromAllSongs = allSongs.find { it.mediaId == songId }
+        if (favoriteSongFromAllSongs != null) {
+            favoriteSongFromAllSongs.favorite = !favoriteSongFromAllSongs.favorite
 
-    //    TODO: Clear this when making album
-//    private fun getAlbums() {
-//        if (_listAlbums.value == null)
-//            _listAlbums.value = ArrayList()
-//        for (j: Int in 1..10) {
-//            _listAlbums.value?.add(
-//                Album(
-//                    R.drawable.blue_neighbourhood,
-//                    "Wind",
-//                    "Troye Sivan",
-//                    "test"
-//                )
-//            )
-//        }
-//    }
+            if (songId == curPlayingSong.value?.getString(METADATA_KEY_MEDIA_ID)) {
+                _isCurPlayingSongFavorited.value = favoriteSongFromAllSongs.favorite
+            }
+        }
+
+//        _listSongs.value = Resource.success(allSongs)
+        fetchFavoriteSongs()
+    }
 
 }

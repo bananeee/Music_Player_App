@@ -6,10 +6,8 @@ import com.example.musicplayerapp.data.entities.Song
 import com.example.musicplayerapp.data.utils.Constants.ALBUM_COLLECTION
 import com.example.musicplayerapp.data.utils.Constants.SONG_COLLECTION
 import com.example.musicplayerapp.data.utils.Constants.USER_COLLECTION
+import com.example.musicplayerapp.data.utils.Constants.USER_SONG_COLLECTION
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import java.util.*
 
@@ -18,6 +16,7 @@ class MusicDatabase {
     private val songCollection = firestore.collection(SONG_COLLECTION)
     private val albumCollection = firestore.collection(ALBUM_COLLECTION)
     private val userCollection = firestore.collection(USER_COLLECTION)
+    private val userSongCollection = firestore.collection(USER_SONG_COLLECTION)
 
     suspend fun getAllSongs(): List<Song> {
         return try {
@@ -39,8 +38,10 @@ class MusicDatabase {
 
     suspend fun getSongsFromAlbum(albumTitle: String): List<Song> {
         return try {
-            val albumReference = albumCollection.document(albumTitle.toLowerCase(Locale.getDefault()))
-            songCollection.whereEqualTo("album", albumReference).get().await().toObjects(Song::class.java)
+            val albumReference =
+                albumCollection.document(albumTitle.toLowerCase(Locale.getDefault()))
+            songCollection.whereEqualTo("album", albumReference).get().await()
+                .toObjects(Song::class.java)
         } catch (e: Exception) {
             Log.e("MusicDatabase", "Cannot get any songs from album $albumTitle, $e")
             emptyList<Song>()
@@ -48,17 +49,86 @@ class MusicDatabase {
 
     }
 
-//    suspend fun getAllSongRealtime():
+    suspend fun getFavoriteSongsId(username: String): List<String> {
+        return try {
+            val songDocs = userSongCollection.whereEqualTo("user", username).get().await().documents
+            var songIdList = emptyList<String>()
+            for (doc in songDocs) {
+                songIdList = songIdList + listOf(doc.data!!["songId"].toString())
+            }
+            songIdList
+        } catch (e: Exception) {
+            Log.e("MusicDatabase", "Cannot get any songs from user $username, $e")
+            emptyList<String>()
+        }
+    }
 
-//    suspend fun getFavoriteSong(username: String): List<Song> {
-//        userCollection.whereEqualTo("username", username).get().addOnSuccessListener {
-//            Log.d
-//        }
-//    }
+    suspend fun getFavoriteSongs(username: String): List<Song> {
+        return try {
+            val songIds = getFavoriteSongsId(username)
+            Log.d("MusicDatabase", "Number of favorite song: " + songIds.size)
+            var songs = emptyList<Song>()
+            for (id in songIds) {
+                val song = songCollection.whereEqualTo("mediaId", id).get().await()
+                    .toObjects(Song::class.java)
+                songs = songs + song
+            }
+            songs
+//            emptyList()
+        } catch (e: Exception) {
+            Log.e("MusicDatabase", "Cannot get any songs from user $username, $e")
+            emptyList()
+        }
+    }
 
-//    suspend fun setFavoriteSong(userId: String, ) {
-//
-//    }
+    suspend fun setFavoriteSong(username: String, mediaId: String): Boolean {
+        return try {
+            val data = hashMapOf(
+                "user" to username,
+                "songId" to mediaId
+            )
+
+            val doc = userSongCollection.whereEqualTo("user", username)
+                .whereEqualTo("songId", mediaId).get().await().documents
+            if (doc.isEmpty()) {
+                userSongCollection.add(data)
+            } else {
+                doc[0].reference.delete()
+            }
+            true
+        } catch (e: Exception) {
+            Log.e("MusicDatabase", "Cannot set favorite")
+            false
+        }
+
+
+    }
+
+    suspend fun getAllSongsFavorite(username: String): List<Song> {
+        return try {
+            val songs = songCollection.get().await().toObjects(Song::class.java)
+            val favoriteSongs = getFavoriteSongsId(username)
+            for (song in songs) {
+                if (favoriteSongs.contains(song.mediaId))
+                    song.favorite = true
+            }
+            songs
+        } catch (e: Exception) {
+            Log.e("MusicDatabase", "Cannot get song list")
+            emptyList<Song>()
+        }
+    }
+
+    suspend fun isFavoriteSong(username: String, mediaId: String): Boolean {
+        return try {
+            val doc = userSongCollection.whereEqualTo("user", username)
+                .whereEqualTo("songId", mediaId).get().await().documents
+            return doc.isNotEmpty()
+        } catch (e: Exception) {
+            Log.e("MusicDatabase", "Cannot check if song is favorited")
+            false
+        }
+    }
 
 //    suspend fun getSearchSongs(query: String): List<Song> {
 //        return try {
