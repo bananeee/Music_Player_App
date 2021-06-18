@@ -3,4 +3,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="notification_chanel_name">Music Chanel</string>
     <string name="notification_chanel_description">Shows the currently playing music</string>
+
+    <string-array name="album_array">
+        <item>Album 1</item>
+        <item>Album 2</item>
+        <item>Album 3</item>
+        <item>Album 4</item>
+    </string-array>
 </resources>

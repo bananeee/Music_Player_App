@@ -19,6 +19,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+//    @Singleton
+//    @Provides
+//    fun provideMusicDatabase() = MusicDatabase()
+
     @Singleton
     @Provides
     fun provideMusicServiceConnection(

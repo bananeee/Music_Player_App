@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_uploadFragment"
+            app:destination="@id/uploadFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_uploadSongFragment"
+            app:destination="@id/uploadFragment" />
     </fragment>
     <fragment
         android:id="@+id/playingFragment"
@@ -30,6 +36,9 @@
         <action
             android:id="@+id/action_profileFragment_to_playingFragment"
             app:destination="@id/playingFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteListFragment"
@@ -44,4 +53,18 @@
     <action
         android:id="@+id/globleActionToPlayingFragment"
         app:destination="@+id/playingFragment"/>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.example.musicplayerapp.fragment.ResetPasswordFragment"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" >
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.example.musicplayerapp.fragment.UploadFragment"
+        android:label="fragment_upload"
+        tools:layout="@layout/fragment_upload" />
 </navigation>

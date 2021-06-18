@@ -1,8 +1,8 @@
 package com.example.musicplayerapp.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment)
         binding.bottomNavigation.setupWithNavController(navController)
 
-//        val navHostFragment = binding.fragment
+        Log.d("MainActivity", "onCreate")
+//        mainActivityViewModel.fetchAllSongs()
 
         updatePlayingBar()
         binding.playing.setOnClickListener { view ->
@@ -47,12 +48,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.playingFragment)
+            if (destination.id == R.id.playingFragment ||
+                destination.id == R.id.resetPasswordFragment
+            )
                 hideBottomNavigationAndPlaying()
             else
                 displayBottomNavigationAndPlaying()
         }
-
     }
 
     private fun updatePlayingBar() {
@@ -103,5 +105,10 @@ class MainActivity : AppCompatActivity() {
         if (mainActivityViewModel.curPlayingSong.value != null) {
             binding.playing.visibility = View.VISIBLE
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MainActivity", "onStart")
     }
 }

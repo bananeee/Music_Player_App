@@ -49,6 +49,7 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+//        mainActivityViewModel.fetchAllSongs()
 
         setupAlbumRecyclerView()
         setupSongRecyclerView()

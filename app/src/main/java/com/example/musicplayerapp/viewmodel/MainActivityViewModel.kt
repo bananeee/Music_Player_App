@@ -16,6 +16,7 @@ import com.example.musicplayerapp.media.MusicServiceConnection
 import com.example.musicplayerapp.media.extension.isPlayEnable
 import com.example.musicplayerapp.media.extension.isPlaying
 import com.example.musicplayerapp.media.extension.isPrepared
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,7 +47,11 @@ class MainActivityViewModel @Inject constructor(
     val isCurPlayingSongFavorited: LiveData<Boolean>
         get() = _isCurPlayingSongFavorited
 
-    private var username: String
+    private var username: String = ""
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val _email = MutableLiveData<String>()
+    val email: LiveData<String>
+        get() = _email
 
     //    TODO: Implement handling error
     val isConnected = musicServiceConnection.isConnected
@@ -56,7 +61,13 @@ class MainActivityViewModel @Inject constructor(
 
     init {
 //        TODO: Clear this when merge authenticate
-        username = "dai"
+//        username = "dai"
+        _email.value = auth.currentUser.email
+        musicDatabase.getUserByEmail(auth.currentUser.email) { user ->
+            username = user.username.toString()
+            Log.d("MainActivityViewModel", "name $username")
+            fetchAllSongs()
+        }
 
         fetchAllAlbums()
         fetchAllSongs()
@@ -117,6 +128,10 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    fun fetchAllSongsLocally() {
+        _listSongs.value = Resource.success(allSongs)
+    }
+
     fun fetchFavoriteSongs() {
         viewModelScope.launch {
 //            val favoriteSongs = musicDatabase.getFavoriteSongs(username)
@@ -128,8 +143,8 @@ class MainActivityViewModel @Inject constructor(
     }
 
     fun fetchSearchSongs(query: String) {
-        val regex = query.split(" ").joinToString (
-            transform = {"(?=.*$it)"},
+        val regex = query.split(" ").joinToString(
+            transform = { "(?=.*$it)" },
             separator = ""
         ).toRegex(RegexOption.IGNORE_CASE)
         val songs = allSongs.filter {
