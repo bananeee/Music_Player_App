@@ -166,6 +166,7 @@ class UploadFragment : Fragment() {
                                     val mediaId = UUID.randomUUID().toString()
                                     val title = binding.etTitle.text.toString()
                                     val artist = binding.etArtist.text.toString()
+                                    val album = binding.albumDropDown.selectedItem.toString()
 
                                     val song = Song(
                                         mediaId,
@@ -175,7 +176,7 @@ class UploadFragment : Fragment() {
                                         imageDowloadUri.toString(),
                                         false
                                     )
-                                    musicDatabase.writeSong(song, requireContext())
+                                    musicDatabase.writeSong(song, album, requireContext())
                                     Log.d("UploadFragment", songUri.toString())
                                 }
                             }

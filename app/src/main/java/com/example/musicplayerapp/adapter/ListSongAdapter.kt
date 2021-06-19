@@ -49,7 +49,7 @@ class ListSongAdapter @Inject constructor(
 //        } else {
 //            viewHolder.playing.setImageResource(R.drawable.ic_play_arrow)
 //        }
-        viewHolder.playing.setImageResource(R.drawable.ic_pause)
+//        viewHolder.playing.setImageResource(R.drawable.ic_pause)
 
         if (currentItem.favorite) {
             viewHolder.favorite.setImageResource(R.drawable.ic_favorite)
@@ -82,7 +82,7 @@ class ListSongAdapter @Inject constructor(
         val imgId: ImageView = view.findViewById(R.id.image)
         val songName: TextView = view.findViewById(R.id.songName)
         val singer: TextView = view.findViewById(R.id.singer)
-        val playing: ImageView = view.findViewById(R.id.isPlaying)
+//        val playing: ImageView = view.findViewById(R.id.isPlaying)
         val favorite: ImageView = view.findViewById(R.id.isFavorite)
     }
 }

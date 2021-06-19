@@ -5,4 +5,5 @@
     <dimen name="btn_text_size">18sp</dimen>
     <dimen name="btn_padding">12dp</dimen>
     <dimen name="btn_margin">40dp</dimen>
+    <dimen name="heart_padding">6dp</dimen>
 </resources>

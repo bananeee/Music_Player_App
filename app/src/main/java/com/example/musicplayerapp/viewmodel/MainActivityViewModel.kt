@@ -38,6 +38,10 @@ class MainActivityViewModel @Inject constructor(
     val listFavoriteSongs: LiveData<Resource<List<Song>>>
         get() = _listFavoriteSongs
 
+    private val _listAlbumSongs = MutableLiveData<Resource<List<Song>>>()
+    val listAlbumSongs: LiveData<Resource<List<Song>>>
+        get() = _listAlbumSongs
+
     //    TODO: Change this when making album
     private var _listAlbums = MutableLiveData<Resource<List<Album>>>()
     val listAlbums: LiveData<Resource<List<Album>>>
@@ -106,16 +110,19 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+//    Deprecated function
     fun fetchSongsFromAlbum(albumTitle: String) {
         viewModelScope.launch {
-            val songs = musicDatabase.getSongsFromAlbum(albumTitle)
+            val songs = musicDatabase.getSongsFromAlbum(username, albumTitle)
             if (songs.isNotEmpty()) {
-                _listSongs.value = Resource.success(songs)
+                _listAlbumSongs.value = Resource.success(songs)
             } else {
-                _listSongs.value = Resource.error("List is empty or error occurs", emptyList())
+                _listAlbumSongs.value = Resource.error("List is empty or error occurs", emptyList())
             }
         }
     }
+
+
 
     fun fetchAllSongs() {
         viewModelScope.launch {
@@ -129,8 +136,10 @@ class MainActivityViewModel @Inject constructor(
     }
 
     fun fetchAllSongsLocally() {
-        _listSongs.value = Resource.success(allSongs)
+        if (this::allSongs.isInitialized)
+            _listSongs.value = Resource.success(allSongs)
     }
+
 
     fun fetchFavoriteSongs() {
         viewModelScope.launch {

@@ -41,12 +41,38 @@ class MusicDatabase {
         }
     }
 
-    suspend fun getSongsFromAlbum(albumTitle: String): List<Song> {
+//    suspend fun getAlbumRef(): List<String> {
+//        return try {
+//            albumCollection.get().await().documents
+//            emptyList<String>()
+//        } catch (e: Exception) {
+//            Log.e("MusicDatabase", "Cannot get album ref, $e")
+//            emptyList<String>()
+//        }
+//    }
+
+    suspend fun getAlbumDetail(albumTitle: String): Album {
+        return try {
+            albumCollection.whereEqualTo("title", albumTitle).get().await().toObjects(Album::class.java)[0]
+        } catch (e: Exception) {
+            Log.e("MusicDatabase", "Cannot get album list, $e")
+            emptyList<Album>()[0]
+        }
+    }
+
+    suspend fun getSongsFromAlbum(username: String, albumTitle: String): List<Song> {
         return try {
             val albumReference =
                 albumCollection.document(albumTitle.toLowerCase(Locale.getDefault()))
-            songCollection.whereEqualTo("album", albumReference).get().await()
+            val songs = songCollection.whereEqualTo("album", albumReference).get().await()
                 .toObjects(Song::class.java)
+
+            val favoriteSongs = getFavoriteSongsId(username)
+            for (song in songs) {
+                if (favoriteSongs.contains(song.mediaId))
+                    song.favorite = true
+            }
+            songs
         } catch (e: Exception) {
             Log.e("MusicDatabase", "Cannot get any songs from album $albumTitle, $e")
             emptyList<Song>()
@@ -187,8 +213,17 @@ class MusicDatabase {
             }
     }
 
-    fun writeSong(song: Song, context: Context) {
-        songCollection.add(song)
+    fun writeSong(song: Song, album: String, context: Context) {
+        val data = hashMapOf(
+            "artist" to song.artist,
+            "mediaId" to song.mediaId,
+            "bigCover" to song.bigCover,
+            "songUrl" to song.songUrl,
+            "title" to song.title,
+            "album" to firestore.document("album/" + album)
+        )
+
+        songCollection.add(data)
             .addOnSuccessListener {
                 Toast.makeText(context, "Successfully Uploaded !!!", Toast.LENGTH_LONG).show()
             }

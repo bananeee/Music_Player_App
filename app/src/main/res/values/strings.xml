@@ -5,9 +5,10 @@
     <string name="notification_chanel_description">Shows the currently playing music</string>
 
     <string-array name="album_array">
-        <item>Album 1</item>
-        <item>Album 2</item>
-        <item>Album 3</item>
-        <item>Album 4</item>
+        <item>edm</item>
+        <item>indie</item>
+        <item>jpop</item>
+        <item>kpop</item>
+        <item>vpop</item>
     </string-array>
 </resources>

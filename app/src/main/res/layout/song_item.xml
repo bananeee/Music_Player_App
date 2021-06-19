@@ -22,7 +22,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/original" />
+            android:src="@drawable/bg_album_drop_down"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -62,18 +62,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/isPlaying"
-                android:layout_width="15sp"
-                android:layout_height="20sp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="16dp"
-                tools:src="@drawable/ic_play_arrow" />
+<!--            <ImageView-->
+<!--                android:id="@+id/isPlaying"-->
+<!--                android:layout_width="15sp"-->
+<!--                android:layout_height="20sp"-->
+<!--                android:layout_alignParentLeft="true"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                tools:src="@drawable/ic_play_arrow" />-->
 
             <ImageView
                 android:id="@+id/isFavorite"
-                android:layout_width="20sp"
+                android:layout_width="40sp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/heart_padding"
                 tools:src="@drawable/ic_favorite" />
 
         </LinearLayout>

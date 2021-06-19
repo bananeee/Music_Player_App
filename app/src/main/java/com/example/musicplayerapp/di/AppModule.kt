@@ -35,8 +35,8 @@ object AppModule {
         @ApplicationContext context: Context
     ) = Glide.with(context).setDefaultRequestOptions(
         RequestOptions()
-            .placeholder(R.drawable.ic_volume_up)
-            .error(R.drawable.ic_volume_up)
+            .placeholder(R.drawable.bg_album_drop_down)
+            .error(R.drawable.bg_album_drop_down)
             .diskCacheStrategy(DiskCacheStrategy.DATA)
     )
 }

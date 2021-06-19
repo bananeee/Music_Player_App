@@ -51,6 +51,7 @@ class HomeFragment : Fragment() {
 
 //        mainActivityViewModel.fetchAllSongs()
 
+        Log.d("HomeFragment", "onCreate")
         setupAlbumRecyclerView()
         setupSongRecyclerView()
 
@@ -91,8 +92,11 @@ class HomeFragment : Fragment() {
 
 
     private fun setupAlbumRecyclerView() {
-        albumClickListener = AlbumClickListener {
-            mainActivityViewModel.fetchSongsFromAlbum(it.title)
+        albumClickListener = AlbumClickListener { album ->
+//            mainActivityViewModel.fetchSongsFromAlbum(it.title)
+            mainActivityViewModel.fetchSongsFromAlbum(album.title)
+            val action = HomeFragmentDirections.actionHomeFragmentToAlbumDetailFragment(album.title)
+            findNavController().navigate(action)
         }
         listAlbumAdapter.albumClickListener = albumClickListener
 //        listAlbumAdapter = ListAlbumAdapter()
@@ -161,4 +165,8 @@ class HomeFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        mainActivityViewModel.fetchAllSongs()
+    }
 }
