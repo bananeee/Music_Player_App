@@ -6,41 +6,80 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.musicplayerapp.R
+import androidx.lifecycle.viewModelScope
 import com.example.musicplayerapp.data.entities.Album
 import com.example.musicplayerapp.data.entities.Song
+import com.example.musicplayerapp.data.remote.MusicDatabase
 import com.example.musicplayerapp.data.utils.Constants.MEDIA_ROOT_ID
 import com.example.musicplayerapp.data.utils.Resource
 import com.example.musicplayerapp.media.MusicServiceConnection
 import com.example.musicplayerapp.media.extension.isPlayEnable
 import com.example.musicplayerapp.media.extension.isPlaying
 import com.example.musicplayerapp.media.extension.isPrepared
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val musicServiceConnection: MusicServiceConnection
+    private val musicServiceConnection: MusicServiceConnection,
+    @Named("ViewModelMusicDatabase") private val musicDatabase: MusicDatabase
 ) : ViewModel() {
+
+    private lateinit var allSongs: List<Song>
 
     private val _listSongs = MutableLiveData<Resource<List<Song>>>()
     val listSongs: LiveData<Resource<List<Song>>>
         get() = _listSongs
 
+    private val _listFavoriteSongs = MutableLiveData<Resource<List<Song>>>()
+    val listFavoriteSongs: LiveData<Resource<List<Song>>>
+        get() = _listFavoriteSongs
+
+    private val _listAlbumSongs = MutableLiveData<Resource<List<Song>>>()
+    val listAlbumSongs: LiveData<Resource<List<Song>>>
+        get() = _listAlbumSongs
+
     //    TODO: Change this when making album
-    private var _listAlbums = MutableLiveData<ArrayList<Album>>()
-    val listAlbums: LiveData<ArrayList<Album>>
+    private var _listAlbums = MutableLiveData<Resource<List<Album>>>()
+    val listAlbums: LiveData<Resource<List<Album>>>
         get() = _listAlbums
 
+    private var _isCurPlayingSongFavorited = MutableLiveData<Boolean>()
+    val isCurPlayingSongFavorited: LiveData<Boolean>
+        get() = _isCurPlayingSongFavorited
+
+    private var username: String = ""
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val _email = MutableLiveData<String>()
+    val email: LiveData<String>
+        get() = _email
+
+    //    TODO: Implement handling error
     val isConnected = musicServiceConnection.isConnected
     val networkError = musicServiceConnection.networkError
     val curPlayingSong = musicServiceConnection.curPlayingSong
     val playbackState = musicServiceConnection.playbackState
 
     init {
-//        TODO: Clear this when making album
-        getAlbums()
+//        TODO: Clear this when merge authenticate
+//        username = "dai"
+        _email.value = auth.currentUser.email
+        musicDatabase.getUserByEmail(auth.currentUser.email) { user ->
+            username = user.username.toString()
+            Log.d("MainActivityViewModel", "name $username")
+            fetchAllSongs()
+        }
 
+        fetchAllAlbums()
+        fetchAllSongs()
+//        fetchFavoriteSongs()
+        subscribeToServiceDataSource()
+    }
+
+    private fun subscribeToServiceDataSource() {
         _listSongs.value = Resource.loading(null)
         musicServiceConnection.subscribe(
             MEDIA_ROOT_ID,
@@ -50,19 +89,78 @@ class MainActivityViewModel @Inject constructor(
                     children: MutableList<MediaBrowserCompat.MediaItem>
                 ) {
                     super.onChildrenLoaded(parentId, children)
-                    val songs = children.map {
-                        Song(
-                            it.mediaId!!,
-                            it.description.title.toString(),
-                            it.description.mediaUri.toString(),
-                            it.description.subtitle.toString(),
-                            it.description.iconUri.toString()
-                        )
-                    }
-                    _listSongs.value = Resource.success(songs)
-                    Log.d("MainActivityViewModel", "Mapping songs from firebase to listSong")
+//                    val songs = children.map {
+//                        Song(
+//                            it.mediaId!!,
+//                            it.description.title.toString(),
+//                            it.description.mediaUri.toString(),
+//                            it.description.subtitle.toString(),
+//                            it.description.iconUri.toString()
+//                        )
+//                    }
+//                    _listSongs.value = Resource.success(songs)
+//                    Log.d("MainActivityViewModel", "Mapping songs from firebase to listSong")
                 }
             })
+    }
+
+    fun fetchAllAlbums() {
+        viewModelScope.launch {
+            _listAlbums.value = Resource.success(musicDatabase.getAllAlbums())
+        }
+    }
+
+//    Deprecated function
+    fun fetchSongsFromAlbum(albumTitle: String) {
+        viewModelScope.launch {
+            val songs = musicDatabase.getSongsFromAlbum(username, albumTitle)
+            if (songs.isNotEmpty()) {
+                _listAlbumSongs.value = Resource.success(songs)
+            } else {
+                _listAlbumSongs.value = Resource.error("List is empty or error occurs", emptyList())
+            }
+        }
+    }
+
+
+
+    fun fetchAllSongs() {
+        viewModelScope.launch {
+//            allSongs = musicDatabase.getAllSongs()
+            allSongs = musicDatabase.getAllSongsFavorite(username)
+            _listSongs.value = Resource.success(allSongs)
+
+            val favoriteSongs = allSongs.filter { song -> song.favorite }
+            _listFavoriteSongs.value = Resource.success(favoriteSongs)
+        }
+    }
+
+    fun fetchAllSongsLocally() {
+        if (this::allSongs.isInitialized)
+            _listSongs.value = Resource.success(allSongs)
+    }
+
+
+    fun fetchFavoriteSongs() {
+        viewModelScope.launch {
+//            val favoriteSongs = musicDatabase.getFavoriteSongs(username)
+//            _listFavoriteSongs.value = Resource.success(favoriteSongs)
+
+            val favoriteSongs = allSongs.filter { song -> song.favorite }
+            _listFavoriteSongs.value = Resource.success(favoriteSongs)
+        }
+    }
+
+    fun fetchSearchSongs(query: String) {
+        val regex = query.split(" ").joinToString(
+            transform = { "(?=.*$it)" },
+            separator = ""
+        ).toRegex(RegexOption.IGNORE_CASE)
+        val songs = allSongs.filter {
+            regex.containsMatchIn(it.title)
+        }
+
+        _listSongs.value = Resource.success(songs)
     }
 
     fun skipToNextSong() {
@@ -84,6 +182,11 @@ class MainActivityViewModel @Inject constructor(
      *   then pause playback, otherwise send "play" to resume playback.
      */
     fun playOrToggleSong(mediaItem: Song, toggle: Boolean = false) {
+        viewModelScope.launch {
+            val isFavorited = musicDatabase.isFavoriteSong(username, mediaItem.mediaId)
+            _isCurPlayingSongFavorited.value = isFavorited
+        }
+
         val isPrepared = playbackState.value?.isPrepared ?: false
         if (isPrepared && mediaItem.mediaId == curPlayingSong.value?.getString(METADATA_KEY_MEDIA_ID)) {
             playbackState.value?.let { playbackState ->
@@ -100,6 +203,7 @@ class MainActivityViewModel @Inject constructor(
                         )
                 }
             }
+
         } else {
             musicServiceConnection.transportControls.playFromMediaId(mediaItem.mediaId, null)
         }
@@ -110,21 +214,28 @@ class MainActivityViewModel @Inject constructor(
         musicServiceConnection.unsubscribe(
             MEDIA_ROOT_ID,
             object : MediaBrowserCompat.SubscriptionCallback() {})
+
+//        TODO: This won't fix notification-service-never-destroy bug, but this bug only appears in api <= 25
+        musicServiceConnection.release()
+        Log.d("MainActivityViewModel", "Release")
     }
 
-
-    //    TODO: Clear this when making album
-    private fun getAlbums() {
-        if (_listAlbums.value == null)
-            _listAlbums.value = ArrayList()
-        for (j: Int in 1..10) {
-            _listAlbums.value?.add(
-                Album(
-                    R.drawable.blue_neighbourhood,
-                    "Wind",
-                    "Troye Sivan"
-                )
-            )
+    fun addFavoriteSong(songId: String) {
+        viewModelScope.launch {
+            musicDatabase.setFavoriteSong(username, songId)
         }
+//        TODO: Test
+        val favoriteSongFromAllSongs = allSongs.find { it.mediaId == songId }
+        if (favoriteSongFromAllSongs != null) {
+            favoriteSongFromAllSongs.favorite = !favoriteSongFromAllSongs.favorite
+
+            if (songId == curPlayingSong.value?.getString(METADATA_KEY_MEDIA_ID)) {
+                _isCurPlayingSongFavorited.value = favoriteSongFromAllSongs.favorite
+            }
+        }
+
+//        _listSongs.value = Resource.success(allSongs)
+        fetchFavoriteSongs()
     }
+
 }

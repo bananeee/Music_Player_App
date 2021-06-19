@@ -16,9 +16,10 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 
 class FirebaseMusicSource @Inject constructor(
-    private val musicDatabase: MusicDatabase
+    @Named("ServiceMusicDatabase") private val musicDatabase: MusicDatabase
 ) {
 
     var songs = emptyList<MediaMetadataCompat>()

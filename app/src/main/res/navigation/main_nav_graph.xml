@@ -12,10 +12,24 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_playingFragment"
-            app:destination="@id/playingFragment" />
+            app:destination="@id/playingFragment"
+            app:enterAnim="@anim/fragment_close_enter" />
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/fragment_fade_enter" />
+        <action
+            android:id="@+id/action_homeFragment_to_uploadFragment"
+            app:destination="@id/uploadFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_uploadSongFragment"
+            app:destination="@id/uploadFragment"
+            app:enterAnim="@anim/fragment_fade_enter" />
+        <action
+            android:id="@+id/action_homeFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/playingFragment"
@@ -29,7 +43,11 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_playingFragment"
-            app:destination="@id/playingFragment" />
+            app:destination="@id/playingFragment"
+            app:enterAnim="@anim/fragment_close_enter" />
+        <action
+            android:id="@+id/action_profileFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteListFragment"
@@ -38,10 +56,35 @@
         tools:layout="@layout/fragment_favorite_list" >
         <action
             android:id="@+id/action_favoriteListFragment_to_playingFragment"
-            app:destination="@id/playingFragment" />
+            app:destination="@id/playingFragment"
+            app:enterAnim="@anim/fragment_close_enter" />
     </fragment>
 
     <action
         android:id="@+id/globleActionToPlayingFragment"
-        app:destination="@+id/playingFragment"/>
+        app:destination="@+id/playingFragment"
+        app:enterAnim="@anim/fragment_close_enter" />
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.example.musicplayerapp.fragment.ResetPasswordFragment"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" >
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.example.musicplayerapp.fragment.UploadFragment"
+        android:label="fragment_upload"
+        tools:layout="@layout/fragment_upload" />
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.musicplayerapp.fragment.AlbumDetailFragment"
+        android:label="fragment_album_detail"
+        tools:layout="@layout/fragment_album_detail" >
+        <argument
+            android:name="albumId"
+            app:argType="string" />
+    </fragment>
 </navigation>

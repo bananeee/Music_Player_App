@@ -6,6 +6,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -65,6 +66,16 @@ class PlayingFragment : Fragment() {
             }
         }
 
+        binding.favorite.setOnClickListener {
+            curPlayingSong?.let { song ->
+                mainActivityViewModel.addFavoriteSong(song.mediaId)
+//                it as ImageView
+//                it.setImageResource(
+//                    if (song.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+//                )
+            }
+        }
+
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -94,6 +105,10 @@ class PlayingFragment : Fragment() {
     }
 
     private fun updateUI(mediaMetadata: MediaMetadataCompat) {
+        binding.favorite.setImageResource(
+            if (mainActivityViewModel.isCurPlayingSongFavorited.value == true)
+                R.drawable.ic_favorite else R.drawable.ic_favorite_border
+        )
         binding.songName.text = mediaMetadata.description.title
         binding.singer.text = mediaMetadata.description.subtitle
         glide.load(mediaMetadata.description.iconUri).fitCenter().into(binding.songCover)
@@ -126,6 +141,12 @@ class PlayingFragment : Fragment() {
         playingViewModel.curSongDuration.observe(viewLifecycleOwner) {
             binding.seekBar.max = it.toInt()
             binding.timeDur.text = convertCurPlayerTimeToText(it)
+        }
+
+        mainActivityViewModel.isCurPlayingSongFavorited.observe(viewLifecycleOwner) {
+            binding.favorite.setImageResource(
+                if (it) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            )
         }
     }
 

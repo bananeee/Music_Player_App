@@ -13,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
+import javax.inject.Named
 
 
 @Module
@@ -21,6 +22,7 @@ object ServiceModule {
 
     @ServiceScoped
     @Provides
+    @Named("ServiceMusicDatabase")
     fun provideMusicDatabase() = MusicDatabase()
 
     @ServiceScoped

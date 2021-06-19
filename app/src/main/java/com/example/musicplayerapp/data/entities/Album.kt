@@ -1,7 +1,9 @@
 package com.example.musicplayerapp.data.entities
 
+import com.google.firebase.firestore.Exclude
+
 data class Album(
-        var albumImg: Int,
-        var albumName: String,
-        var singer: String
-) {}
+    var albumCover: String = "",
+    @Exclude var artis: String = "",
+    var title: String = ""
+)

@@ -73,6 +73,10 @@ class MusicServiceConnection(context: Context) {
         mediaBrowser.unsubscribe(parentId, callback)
     }
 
+    fun release() {
+        mediaBrowser.disconnect()
+    }
+
     private inner class MediaBrowserConnectionCallback(
         private val context: Context
     ) : MediaBrowserCompat.ConnectionCallback() {

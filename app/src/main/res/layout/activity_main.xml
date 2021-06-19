@@ -55,12 +55,13 @@
         android:paddingTop="8dp"
         android:paddingRight="@dimen/app_margin"
         android:paddingBottom="8dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/songCover"
             android:layout_width="50sp"
             android:layout_height="50dp"
             android:src="@drawable/original"
@@ -74,11 +75,12 @@
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/songCover"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.511">
 
             <TextView
+                android:id="@+id/title"
                 style="@style/songName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,6 +90,7 @@
                 tools:layout_editor_absoluteX="74dp" />
 
             <TextView
+                android:id="@+id/artist"
                 style="@style/singerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,21 +109,25 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
             <ImageView
-                android:layout_width="15sp"
-                android:layout_height="20sp"
+                android:id="@+id/play"
+                android:layout_width="33sp"
+                android:layout_height="33sp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginRight="16dp"
                 android:src="@drawable/ic_play_arrow"
+                android:padding="@dimen/heart_padding"
                 tools:layout_editor_absoluteX="279dp"
                 tools:layout_editor_absoluteY="26dp" />
 
             <ImageView
-                android:layout_width="20sp"
+                android:id="@+id/favorite"
+                android:layout_width="40sp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_favorite"
+                android:padding="@dimen/heart_padding"
                 tools:layout_editor_absoluteX="168dp"
                 tools:layout_editor_absoluteY="9dp" />
 
